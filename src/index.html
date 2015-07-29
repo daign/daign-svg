@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<title>daign svg</title>
+
+	<link rel="stylesheet" href="css/daign.css">
+
+	<script src="js/daign.js"></script>
+	<script src="js/viewport.js"></script>
+	<script src="js/page.js"></script>
+
+	<script src="js/math/vector2.js"></script>
+
+	<script src="js/path/path.js"></script>
+	<script src="js/path/pathSegment.js"></script>
+	<script src="js/path/pathSegmentMove.js"></script>
+	<script src="js/path/pathSegmentLine.js"></script>
+	<script src="js/path/pathSegmentQuadratic.js"></script>
+	<script src="js/path/pathSegmentCubic.js"></script>
+	<script src="js/path/pathSegmentArc.js"></script>
+	<script src="js/path/pathSegmentClose.js"></script>
+
+	<script src="js/control/controlsManager.js"></script>
+	<script src="js/control/controlPoint.js"></script>
+	<script src="js/control/controlLine.js"></script>
+	<script src="js/control/handle.js"></script>
+
+	<script src="lib/FileSaver.js"></script>
+
+</head>
+<body>
+
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		version="1.1"
+		xmlns:xlink="http://www.w3.org/1999/xlink"
+		id="svgNode"
+	/>
+
+	<div>
+		<button id="saveButton">save</button>
+	</div>
+
+	<script>
+		daign.init( document.getElementById( 'svgNode' ) );
+	</script>
+
+</body>
+</html>
+

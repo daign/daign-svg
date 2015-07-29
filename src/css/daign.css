@@ -1,0 +1,16 @@
+body {
+	font-family: sans-serif;
+}
+svg {
+	border: 1px solid black;
+}
+
+.controlPoint {
+	fill: #f00;
+}
+.controlLine {
+	fill: none;
+	stroke: #f00;
+	stroke-width: 0.7;
+}
+
