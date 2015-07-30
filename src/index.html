@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="css/daign.css">
 
 	<script src="js/daign.js"></script>
-	<script src="js/viewport.js"></script>
+	<script src="js/view.js"></script>
 	<script src="js/page.js"></script>
 
 	<script src="js/math/vector2.js"></script>
@@ -32,19 +32,10 @@
 </head>
 <body>
 
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		version="1.1"
-		xmlns:xlink="http://www.w3.org/1999/xlink"
-		id="svgNode"
-	/>
-
-	<div>
-		<button id="saveButton">save</button>
-	</div>
+	<div id="container" class="container" style="width: 800px; height: 400px;"></div>
 
 	<script>
-		daign.init( document.getElementById( 'svgNode' ) );
+		daign.init( document.getElementById( 'container' ) );
 	</script>
 
 </body>

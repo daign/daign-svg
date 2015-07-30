@@ -1,6 +1,6 @@
-daign.PathSegmentQuadratic = function ( points, parameters, previous ) {
+daign.PathSegmentQuadratic = function ( points, parameters, previous, view ) {
 
-	daign.PathSegment.call( this, points, parameters, previous );
+	daign.PathSegment.call( this, points, parameters, previous, view );
 
 };
 

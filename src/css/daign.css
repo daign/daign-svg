@@ -1,8 +1,16 @@
 body {
 	font-family: sans-serif;
+	background: #999;
 }
-svg {
-	border: 1px solid black;
+
+.container {
+	display: inline-block;
+	border: 1px solid #000;
+	background: #fff;
+}
+.menu {
+	background: #ddd;
+	height: 40px;
 }
 
 .controlPoint {

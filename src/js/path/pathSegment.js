@@ -1,8 +1,9 @@
-daign.PathSegment = function ( points, parameters, previous ) {
+daign.PathSegment = function ( points, parameters, previous, view ) {
 
 	this.points = points;
 	this.parameters = parameters;
 	this.previous = previous;
+	this.view = view;
 
 };
 
@@ -49,7 +50,7 @@ daign.PathSegment.prototype = {
 				},
 				ending: function () {},
 				clicked: function () {
-					daign.ControlsManager.showSegment( self );
+					self.view.controls.showSegment( self );
 				},
 				vector0: new daign.Vector2(),
 				vectorT: new daign.Vector2()

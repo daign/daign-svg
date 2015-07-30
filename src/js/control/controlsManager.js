@@ -1,23 +1,21 @@
-daign.ControlsManager = {
+daign.ControlsManager = function ( group ) {
 
-	pathPoints: [],
-	segmentLines: [],
-	segmentPoints: [],
+	this.pathPoints = [];
+	this.segmentLines = [];
+	this.segmentPoints = [];
 
-	pathGroup: undefined,
-	segmentLinesGroup: undefined,
-	segmentPointsGroup: undefined,
+	this.pathGroup = document.createElementNS( daign.SVGNS, 'g' );
+	this.segmentLinesGroup = document.createElementNS( daign.SVGNS, 'g' );
+	this.segmentPointsGroup = document.createElementNS( daign.SVGNS, 'g' );
+	group.appendChild( this.segmentLinesGroup );
+	group.appendChild( this.pathGroup );
+	group.appendChild( this.segmentPointsGroup );
 
-	setGroup: function ( group ) {
+};
 
-		this.pathGroup = document.createElementNS( daign.SVGNS, 'g' );
-		this.segmentLinesGroup = document.createElementNS( daign.SVGNS, 'g' );
-		this.segmentPointsGroup = document.createElementNS( daign.SVGNS, 'g' );
-		group.appendChild( this.segmentLinesGroup );
-		group.appendChild( this.pathGroup );
-		group.appendChild( this.segmentPointsGroup );
+daign.ControlsManager.prototype = {
 
-	},
+	constructor: daign.ControlsManager,
 
 	showPath: function ( path ) {
 
