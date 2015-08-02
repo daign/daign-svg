@@ -7,15 +7,8 @@ daign.init = function ( containerNode ) {
 	var width = containerNode.clientWidth;
 	var height = containerNode.clientHeight;
 
-	var menu = document.createElement( 'div' );
-	menu.setAttribute( 'class', 'menu' );
-	containerNode.appendChild( menu );
-
-	var saveButton = document.createElement( 'button' );
-	saveButton.innerHTML = 'save';
-	menu.appendChild( saveButton );
-
-	var view = new daign.View( containerNode, width, height-40, saveButton );
+	var menu = new daign.Menu( containerNode );
+	var view = new daign.View( containerNode, width, height-40, menu.saveButton );
 
 };
 

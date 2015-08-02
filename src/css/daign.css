@@ -1,5 +1,6 @@
 body {
 	font-family: sans-serif;
+	font-size: small;
 	background: #999;
 }
 
@@ -11,6 +12,10 @@ body {
 .menu {
 	background: #ddd;
 	height: 40px;
+}
+.title {
+	display: inline-block;
+	padding: 0px 4px 0px 6px;
 }
 
 .controlPoint {
