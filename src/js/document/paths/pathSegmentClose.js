@@ -1,6 +1,6 @@
-daign.PathSegmentClose = function ( points, parameters, previous, view ) {
+daign.PathSegmentClose = function ( points, parameters, previous, document ) {
 
-	daign.PathSegment.call( this, points, parameters, previous, view );
+	daign.PathSegment.call( this, points, parameters, previous, document );
 
 };
 

@@ -8,25 +8,31 @@
 	<link rel="stylesheet" href="css/daign.css">
 
 	<script src="js/daign.js"></script>
+	<script src="js/application.js"></script>
+	<script src="js/keyEventManager.js"></script>
 	<script src="js/view.js"></script>
-	<script src="js/page.js"></script>
 
 	<script src="js/math/vector2.js"></script>
 
-	<script src="js/path/path.js"></script>
-	<script src="js/path/pathSegment.js"></script>
-	<script src="js/path/pathSegmentMove.js"></script>
-	<script src="js/path/pathSegmentLine.js"></script>
-	<script src="js/path/pathSegmentQuadratic.js"></script>
-	<script src="js/path/pathSegmentCubic.js"></script>
-	<script src="js/path/pathSegmentArc.js"></script>
-	<script src="js/path/pathSegmentClose.js"></script>
+	<script src="js/menu/menu.js"></script>
 
-	<script src="js/control/controlsManager.js"></script>
-	<script src="js/control/controlPoint.js"></script>
-	<script src="js/control/controlLine.js"></script>
-	<script src="js/control/handle.js"></script>
-	<script src="js/control/menu.js"></script>
+	<script src="js/document/document.js"></script>
+	<script src="js/document/viewport.js"></script>
+	<script src="js/document/page.js"></script>
+
+	<script src="js/document/controls/controlsManager.js"></script>
+	<script src="js/document/controls/controlPoint.js"></script>
+	<script src="js/document/controls/controlLine.js"></script>
+	<script src="js/document/controls/handle.js"></script>
+
+	<script src="js/document/paths/path.js"></script>
+	<script src="js/document/paths/pathSegment.js"></script>
+	<script src="js/document/paths/pathSegmentMove.js"></script>
+	<script src="js/document/paths/pathSegmentLine.js"></script>
+	<script src="js/document/paths/pathSegmentQuadratic.js"></script>
+	<script src="js/document/paths/pathSegmentCubic.js"></script>
+	<script src="js/document/paths/pathSegmentArc.js"></script>
+	<script src="js/document/paths/pathSegmentClose.js"></script>
 
 	<script src="lib/FileSaver.js"></script>
 
@@ -34,9 +40,11 @@
 <body>
 
 	<div id="container" class="container" style="width: 800px; height: 400px;"></div>
+	<div id="container2" class="container" style="width: 400px; height: 400px;"></div>
 
 	<script>
-		daign.init( document.getElementById( 'container' ) );
+		new daign.Application( document.getElementById( 'container' ) );
+		new daign.Application( document.getElementById( 'container2' ) );
 	</script>
 
 </body>

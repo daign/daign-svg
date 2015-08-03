@@ -1,6 +1,6 @@
-daign.PathSegmentCubic = function ( points, parameters, previous, view ) {
+daign.PathSegmentCubic = function ( points, parameters, previous, document ) {
 
-	daign.PathSegment.call( this, points, parameters, previous, view );
+	daign.PathSegment.call( this, points, parameters, previous, document );
 
 };
 

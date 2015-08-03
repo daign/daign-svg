@@ -8,10 +8,17 @@ body {
 	display: inline-block;
 	border: 1px solid #000;
 	background: #fff;
+	outline: none;
 }
+
 .menu {
-	background: #ddd;
 	height: 40px;
+}
+.menu.focus {
+	background: #7ac;
+}
+.menu.blur {
+	background: #ddd;
 }
 .title {
 	display: inline-block;
