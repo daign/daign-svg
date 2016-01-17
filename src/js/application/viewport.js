@@ -6,7 +6,9 @@ daign.Viewport = function ( app, viewsNode ) {
 	viewsNode.appendChild( this.node );
 
 	this.node.appendChild( app.document.node );
-	this.controls = app.document.controls;
+
+	this.controls = new daign.ControlLayer( this.node );
+	app.selectionManager.addControlLayer( this.controls );
 
 	this.viewCenter = new daign.Vector2( 50, 50 );
 	this.viewCenterSnaphot = undefined;
@@ -39,10 +41,10 @@ daign.Viewport.prototype = {
 	constructor: daign.Viewport,
 
 	resize: function ( width, height ) {
-		this.node.style.width = width + 'px';
-		this.node.style.height = height + 'px';
-		//this.node.setAttribute( 'width', width );
-		//this.node.setAttribute( 'height', height );
+
+		this.node.style.width  = ( width-2 ) + 'px';
+		this.node.style.height = ( height-2 ) + 'px';
+
 	},
 
 	updateViewport: function () {

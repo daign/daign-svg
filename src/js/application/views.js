@@ -13,10 +13,12 @@ daign.Views.prototype = {
 	constructor: daign.Views,
 
 	resize: function ( width, height ) {
+
 		this.node.style.width = width + 'px';
 		this.node.style.height = height + 'px';
 
 		this.viewport.resize( width, height );
+
 	}
 
 };

@@ -1,18 +1,21 @@
-daign.Page = function ( parent ) {
+daign.Page = function ( documentNode ) {
+
+	this.node = document.createElementNS( daign.SVGNS, 'g' );
+	documentNode.appendChild( this.node );
 
 	this.x = 0;
 	this.y = 0;
 	this.width = 100;
 	this.height = 100;
 
-	this.node = document.createElementNS( daign.SVGNS, 'rect' );
-	this.node.setAttribute( 'x', this.x );
-	this.node.setAttribute( 'y', this.y );
-	this.node.setAttribute( 'width', this.width );
-	this.node.setAttribute( 'height', this.height );
-	this.node.setAttribute( 'fill', '#fff' );
-	this.node.setAttribute( 'stroke', '#000' );
-	this.node.setAttribute( 'stroke-width', 0.3 );
+	this.sheet = document.createElementNS( daign.SVGNS, 'rect' );
+	this.sheet.setAttribute( 'x', this.x );
+	this.sheet.setAttribute( 'y', this.y );
+	this.sheet.setAttribute( 'width', this.width );
+	this.sheet.setAttribute( 'height', this.height );
+	this.sheet.setAttribute( 'fill', '#fff' );
+	this.sheet.setAttribute( 'stroke', '#000' );
+	this.sheet.setAttribute( 'stroke-width', 0.3 );
 
 	this.shadow = document.createElementNS( daign.SVGNS, 'rect' );
 	this.shadow.setAttribute( 'x', this.x+2 );
@@ -23,8 +26,8 @@ daign.Page = function ( parent ) {
 	this.shadow.setAttribute( 'stroke', '#ddd' );
 	this.shadow.setAttribute( 'stroke-width', 0.3 );
 
-	parent.appendChild( this.shadow );
-	parent.appendChild( this.node );
+	this.node.appendChild( this.shadow );
+	this.node.appendChild( this.sheet );
 
 };
 

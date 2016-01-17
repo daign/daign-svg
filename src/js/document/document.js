@@ -1,16 +1,12 @@
 daign.Document = function ( app ) {
 
+	this.app = app;
 	this.node = document.createElementNS( daign.SVGNS, 'g' );
 
-	var pageGroup     = document.createElementNS( daign.SVGNS, 'g' );
-	this.drawingGroup = document.createElementNS( daign.SVGNS, 'g' );
-	var controlsGroup = document.createElementNS( daign.SVGNS, 'g' );
-	this.node.appendChild( pageGroup );
-	this.node.appendChild( this.drawingGroup );
-	this.node.appendChild( controlsGroup );
+	this.page = new daign.Page( this.node );
 
-	this.page = new daign.Page( pageGroup );
-	this.controls = new daign.ControlsManager( controlsGroup );
+	this.drawingGroup = document.createElementNS( daign.SVGNS, 'g' );
+	this.node.appendChild( this.drawingGroup );
 
 	var path1 = new daign.Path( this );
 	path1.parse( 'M 20,20 L 60,20 Q 50,50,80,40 L 80,60 C 50,60,80,80,60,80 L 40,80 A 20,20,0,0,0,20,60 Z' );

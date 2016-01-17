@@ -1,4 +1,7 @@
-daign.ControlsManager = function ( group ) {
+daign.ControlLayer = function ( viewportNode ) {
+
+	this.node = document.createElementNS( daign.SVGNS, 'g' );
+	viewportNode.appendChild( this.node );
 
 	this.pathPoints = [];
 	this.segmentLines = [];
@@ -7,15 +10,15 @@ daign.ControlsManager = function ( group ) {
 	this.pathGroup = document.createElementNS( daign.SVGNS, 'g' );
 	this.segmentLinesGroup = document.createElementNS( daign.SVGNS, 'g' );
 	this.segmentPointsGroup = document.createElementNS( daign.SVGNS, 'g' );
-	group.appendChild( this.segmentLinesGroup );
-	group.appendChild( this.pathGroup );
-	group.appendChild( this.segmentPointsGroup );
+	this.node.appendChild( this.segmentLinesGroup );
+	this.node.appendChild( this.pathGroup );
+	this.node.appendChild( this.segmentPointsGroup );
 
 };
 
-daign.ControlsManager.prototype = {
+daign.ControlLayer.prototype = {
 
-	constructor: daign.ControlsManager,
+	constructor: daign.ControlLayer,
 
 	showPath: function ( path ) {
 

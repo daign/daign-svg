@@ -16,12 +16,16 @@ body {
 }
 .splitter {
 	background: #bcd;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
 }
 .viewport {
 	background: #fff;
+	border: 1px solid #999;
 }
 .documentTree {
 	background: #fff;
+	border: 1px solid #999;
 }
 .status {
 	background: #bcd;

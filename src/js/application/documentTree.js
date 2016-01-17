@@ -11,8 +11,8 @@ daign.DocumentTree.prototype = {
 	constructor: daign.DocumentTree,
 
 	resize: function ( width, height ) {
-		this.node.style.width = width + 'px';
-		this.node.style.height = height + 'px';
+		this.node.style.width  = ( width-2 ) + 'px';
+		this.node.style.height = ( height-2 ) + 'px';
 	}
 
 };

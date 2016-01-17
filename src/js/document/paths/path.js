@@ -18,7 +18,7 @@ daign.Path = function ( document ) {
 		},
 		ending: function () {},
 		clicked: function () {
-			self.document.controls.showPath( self ); // path can be already active
+			self.document.app.selectionManager.setPath( self ); // path can be already active
 		}
 	} );
 

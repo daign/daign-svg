@@ -50,7 +50,7 @@ daign.PathSegment.prototype = {
 				},
 				ending: function () {},
 				clicked: function () {
-					self.document.controls.showSegment( self );
+					self.document.app.selectionManager.setSegment( self );
 				},
 				vector0: new daign.Vector2(),
 				vectorT: new daign.Vector2()

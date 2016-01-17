@@ -19,6 +19,7 @@ daign.Content.prototype = {
 	constructor: daign.Content,
 
 	resize: function ( width, height, top ) {
+
 		this.node.style.width = width + 'px';
 		this.node.style.height = height + 'px';
 		this.node.style.top = top + 'px';
@@ -31,8 +32,9 @@ daign.Content.prototype = {
 		this.sidebar.resize( sidebarWidth, height, viewsWidth+splitterWidth );
 
 		this.splitter.style.width = splitterWidth + 'px';
-		this.splitter.style.height = height + 'px';
+		this.splitter.style.height = ( height-2 ) + 'px';
 		this.splitter.style.left = viewsWidth + 'px';
+
 	}
 
 };
