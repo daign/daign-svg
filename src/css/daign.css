@@ -2,24 +2,31 @@ body {
 	font-family: sans-serif;
 	font-size: small;
 	background: #999;
+	overflow: hidden;
 }
 
 .container {
-	display: inline-block;
-	border: 1px solid #000;
-	background: #fff;
-	outline: none;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 }
 
 .menu {
-	height: 40px;
-}
-.menu.focus {
 	background: #7ac;
 }
-.menu.blur {
-	background: #ddd;
+.splitter {
+	background: #bcd;
 }
+.viewport {
+	background: #fff;
+}
+.documentTree {
+	background: #fff;
+}
+.status {
+	background: #bcd;
+}
+
 .title {
 	display: inline-block;
 	padding: 0px 4px 0px 6px;

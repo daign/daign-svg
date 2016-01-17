@@ -9,10 +9,8 @@ daign.Document = function ( app ) {
 	this.node.appendChild( this.drawingGroup );
 	this.node.appendChild( controlsGroup );
 
-	var page = new daign.Page( pageGroup );
+	this.page = new daign.Page( pageGroup );
 	this.controls = new daign.ControlsManager( controlsGroup );
-
-	this.viewport = new daign.Viewport( app, this.controls );
 
 	var path1 = new daign.Path( this );
 	path1.parse( 'M 20,20 L 60,20 Q 50,50,80,40 L 80,60 C 50,60,80,80,60,80 L 40,80 A 20,20,0,0,0,20,60 Z' );
@@ -30,10 +28,10 @@ daign.Document.prototype = {
 
 	toString: function () {
 
-		var x = this.viewport.viewCenter.x - 0.5 * this.viewport.viewDimensions.x;
-		var y = this.viewport.viewCenter.y - 0.5 * this.viewport.viewDimensions.y;
-		var width = this.viewport.viewDimensions.x;
-		var height = this.viewport.viewDimensions.y;
+		var x = this.page.x;
+		var y = this.page.y;
+		var width = this.page.width;
+		var height = this.page.height;
 		var output = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="' + x + ',' + y + ',' + width + ',' + height + '">';
 		output += this.drawingGroup.innerHTML;
 		output += '</svg>';

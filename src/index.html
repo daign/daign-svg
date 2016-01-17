@@ -8,16 +8,21 @@
 	<link rel="stylesheet" href="css/daign.css">
 
 	<script src="js/daign.js"></script>
-	<script src="js/application.js"></script>
-	<script src="js/keyEventManager.js"></script>
-	<script src="js/view.js"></script>
+
+	<script src="js/application/schedule.js"></script>
+	<script src="js/application/application.js"></script>
+	<script src="js/application/keyEventManager.js"></script>
+	<script src="js/application/menu.js"></script>
+	<script src="js/application/status.js"></script>
+	<script src="js/application/content.js"></script>
+	<script src="js/application/views.js"></script>
+	<script src="js/application/viewport.js"></script>
+	<script src="js/application/sidebar.js"></script>
+	<script src="js/application/documentTree.js"></script>
 
 	<script src="js/math/vector2.js"></script>
 
-	<script src="js/menu/menu.js"></script>
-
 	<script src="js/document/document.js"></script>
-	<script src="js/document/viewport.js"></script>
 	<script src="js/document/page.js"></script>
 
 	<script src="js/document/controls/controlsManager.js"></script>
@@ -39,12 +44,10 @@
 </head>
 <body>
 
-	<div id="container" class="container" style="width: 800px; height: 400px;"></div>
-	<div id="container2" class="container" style="width: 400px; height: 400px;"></div>
+	<div id="container" class="container"></div>
 
 	<script>
 		new daign.Application( document.getElementById( 'container' ) );
-		new daign.Application( document.getElementById( 'container2' ) );
 	</script>
 
 </body>
