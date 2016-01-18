@@ -5,15 +5,16 @@ daign.Viewport = function ( app, viewsNode ) {
 	this.node.setAttribute( 'xmlns:xlink', daign.XLink );
 	viewsNode.appendChild( this.node );
 
-	this.node.appendChild( app.document.node );
+	this.docNode = app.document.node;
+	this.node.appendChild( this.docNode );
 
-	this.controls = new daign.ControlLayer( this.node );
+	this.controls = new daign.ControlLayer( this );
 	app.selectionManager.addControlLayer( this.controls );
 
 	this.viewCenter = new daign.Vector2( 50, 50 );
 	this.viewCenterSnaphot = undefined;
-	this.viewScale = 1;
-	this.viewDimensions = new daign.Vector2( 240, 120 );
+	//this.viewScale = 1;
+	this.viewDimensions = new daign.Vector2( 0, 0 );
 
 	this.updateViewport();
 
@@ -40,18 +41,23 @@ daign.Viewport.prototype = {
 
 	constructor: daign.Viewport,
 
-	resize: function ( width, height ) {
+	resize: function ( width, height, left, top ) {
 
 		this.node.style.width  = ( width-2 ) + 'px';
 		this.node.style.height = ( height-2 ) + 'px';
+		this.node.style.left = left + 'px';
+		this.node.style.top = top + 'px';
+		this.node.setAttribute( 'viewBox', 0 + ',' + 0 + ',' + width + ',' + height );
+		this.viewDimensions.set( width, height );
+		this.updateViewport();
 
 	},
 
 	updateViewport: function () {
 
-		var x1 = this.viewCenter.x - ( this.viewDimensions.x * 0.5 );
-		var y1 = this.viewCenter.y - ( this.viewDimensions.y * 0.5 );
-		this.node.setAttribute( 'viewBox', x1 + ',' + y1 + ',' + this.viewDimensions.x + ',' + this.viewDimensions.y );
+		var dx = ( this.viewDimensions.x * 0.5 ) - this.viewCenter.x;
+		var dy = ( this.viewDimensions.y * 0.5 ) - this.viewCenter.y;
+		this.docNode.setAttribute( 'transform', 'translate(' + dx + ',' + dy + ')' );
 
 	},
 
@@ -63,8 +69,14 @@ daign.Viewport.prototype = {
 
 	drag: function ( v ) {
 
-		this.viewCenter.copy( this.viewCenterSnaphot ).sub( v.multiplyScalar( 0.25 ) );
+		this.viewCenter.copy( this.viewCenterSnaphot ).sub( v.multiplyScalar( 1 ) );
 		this.updateViewport();
+
+	},
+
+	projectToViewCoordinates ( v ) {
+
+		return this.viewDimensions.clone().multiplyScalar( 0.5 ).sub( this.viewCenter ).add( v );
 
 	}
 

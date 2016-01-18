@@ -1,8 +1,8 @@
-daign.ControlPoint = function ( parent, point, settings ) {
+daign.ControlPoint = function ( parent, point, settings, viewport ) {
 
 	this.parent = parent;
 	this.node = document.createElementNS( daign.SVGNS, 'circle' );
-	this.node.setAttribute( 'r', 1.5 );
+	this.node.setAttribute( 'r', 4 );
 	this.node.setAttribute( 'class', 'controlPoint' );
 	this.parent.appendChild( this.node );
 
@@ -10,8 +10,9 @@ daign.ControlPoint = function ( parent, point, settings ) {
 
 	var self = this;
 	var update = function () {
-		self.node.setAttribute( 'cx', self.point.x );
-		self.node.setAttribute( 'cy', self.point.y );
+		var p = viewport.projectToViewCoordinates( self.point );
+		self.node.setAttribute( 'cx', p.x );
+		self.node.setAttribute( 'cy', p.y );
 	};
 
 	update();

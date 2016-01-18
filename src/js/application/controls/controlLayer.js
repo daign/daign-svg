@@ -1,7 +1,9 @@
-daign.ControlLayer = function ( viewportNode ) {
+daign.ControlLayer = function ( viewport ) {
+
+	this.viewport = viewport;
 
 	this.node = document.createElementNS( daign.SVGNS, 'g' );
-	viewportNode.appendChild( this.node );
+	viewport.node.appendChild( this.node );
 
 	this.pathPoints = [];
 	this.segmentLines = [];
@@ -38,7 +40,7 @@ daign.ControlLayer.prototype = {
 		this.segmentLines = [];
 
 		if ( path !== null ) {
-			path.setUpControls( this.pathPoints, this.pathGroup );
+			path.setUpControls( this.pathPoints, this.pathGroup, this.viewport );
 		}
 
 	},
@@ -56,7 +58,7 @@ daign.ControlLayer.prototype = {
 		this.segmentLines = [];
 
 		if ( segment !== null ) {
-			segment.setUpControls( this.segmentPoints, this.segmentPointsGroup, this.segmentLines, this.segmentLinesGroup );
+			segment.setUpControls( this.segmentPoints, this.segmentPointsGroup, this.segmentLines, this.segmentLinesGroup, this.viewport );
 		}
 
 	}

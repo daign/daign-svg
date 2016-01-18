@@ -84,10 +84,10 @@ daign.Path.prototype = {
 
 	},
 
-	setUpControls: function ( pointsArray, pointsGroup ) {
+	setUpControls: function ( pointsArray, pointsGroup, viewport ) {
 
 		this.segments.forEach( function ( segment ) {
-			segment.setUpEndControl( pointsArray, pointsGroup );
+			segment.setUpEndControl( pointsArray, pointsGroup, viewport );
 		} );
 
 	},

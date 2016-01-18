@@ -31,13 +31,13 @@ daign.PathSegmentArc.prototype.render = function () {
 
 };
 
-daign.PathSegmentArc.prototype.setUpControls = function ( pointsArray, pointsGroup, linesArray, linesGroup ) {
+daign.PathSegmentArc.prototype.setUpControls = function ( pointsArray, pointsGroup, linesArray, linesGroup, viewport ) {
 
-	var line1 = new daign.ControlLine( linesGroup, this.points[ 1 ], this.points[ 0 ] );
+	var line1 = new daign.ControlLine( linesGroup, this.points[ 1 ], this.points[ 0 ], viewport );
 	linesArray.push( line1 );
 
 	if ( this.previous !== undefined && this.previous.getEndPoint() !== undefined ) {
-		var line2 = new daign.ControlLine( linesGroup, this.points[ 0 ], this.previous.getEndPoint() );
+		var line2 = new daign.ControlLine( linesGroup, this.points[ 0 ], this.previous.getEndPoint(), viewport );
 		linesArray.push( line2 );
 	}
 
@@ -75,7 +75,7 @@ daign.PathSegmentArc.prototype.setUpControls = function ( pointsArray, pointsGro
 		vector0: new daign.Vector2(),
 		vectorT: new daign.Vector2()
 	};
-	var cPoint = new daign.ControlPoint( pointsGroup, px, settings );
+	var cPoint = new daign.ControlPoint( pointsGroup, px, settings, viewport );
 	pointsArray.push( cPoint );
 
 };

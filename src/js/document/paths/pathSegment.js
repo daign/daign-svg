@@ -35,7 +35,7 @@ daign.PathSegment.prototype = {
 
 	},
 
-	setUpEndControl: function ( pointsArray, pointsGroup ) {
+	setUpEndControl: function ( pointsArray, pointsGroup, viewport ) {
 
 		var lastPoint = this.getEndPoint();
 		if ( lastPoint !== undefined ) {
@@ -55,13 +55,13 @@ daign.PathSegment.prototype = {
 				vector0: new daign.Vector2(),
 				vectorT: new daign.Vector2()
 			}
-			var cPoint = new daign.ControlPoint( pointsGroup, lastPoint, settings );
+			var cPoint = new daign.ControlPoint( pointsGroup, lastPoint, settings, viewport );
 			pointsArray.push( cPoint );
 		}
 
 	},
 
-	setUpControls: function ( pointsArray, pointsGroup, linesArray, linesGroup ) {
+	setUpControls: function ( pointsArray, pointsGroup, linesArray, linesGroup, viewport ) {
 
 		var lastPoint = this.getEndPoint();
 		var self = this;
@@ -81,17 +81,17 @@ daign.PathSegment.prototype = {
 					vector0: new daign.Vector2(),
 					vectorT: new daign.Vector2()
 				};
-				var cPoint = new daign.ControlPoint( pointsGroup, pointI, settings );
+				var cPoint = new daign.ControlPoint( pointsGroup, pointI, settings, viewport );
 				pointsArray.push( cPoint );
 			} )();
 
 			var nextPoint = this.points[ i ];
-			var line = new daign.ControlLine( linesGroup, lastPoint, nextPoint );
+			var line = new daign.ControlLine( linesGroup, lastPoint, nextPoint, viewport );
 			linesArray.push( line );
 			lastPoint = nextPoint;
 		}
 		if ( this.previous !== undefined && this.previous.getEndPoint() !== undefined ) {
-			var line = new daign.ControlLine( linesGroup, lastPoint, this.previous.getEndPoint() );
+			var line = new daign.ControlLine( linesGroup, lastPoint, this.previous.getEndPoint(), viewport );
 			linesArray.push( line );
 		}
 
