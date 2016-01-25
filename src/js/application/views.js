@@ -4,8 +4,8 @@ daign.Views = function ( app, contentNode ) {
 	this.node.setAttribute( 'class', 'container' );
 	contentNode.appendChild( this.node );
 
-	this.viewport1 = new daign.Viewport( app, this.node );
-	this.viewport2 = new daign.Viewport( app, this.node );
+	this.viewport1 = new daign.Viewport( app, '1', this.node );
+	this.viewport2 = new daign.Viewport( app, '2', this.node );
 
 };
 

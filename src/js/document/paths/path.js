@@ -1,32 +1,42 @@
 daign.Path = function ( document ) {
 
-	this.segments = [];
-	this.node = window.document.createElementNS( daign.SVGNS, 'path' );
-
 	this.document = document;
 
-	var self = this;
-	var pathHandle = new daign.Handle( {
-		domNode: self.node,
-		vector0: new daign.Vector2(),
-		vectorT: new daign.Vector2(),
-		beginning: function () {
-			self.snap();
-		},
-		continuing: function () {
-			self.drag( this.vectorT.sub( this.vector0 ) );
-		},
-		ending: function () {},
-		clicked: function () {
-			self.document.app.selectionManager.setPath( self ); // path can be already active
-		}
-	} );
+	this.segments = [];
+	this.nodes = {};
 
 };
 
 daign.Path.prototype = {
 
 	constructor: daign.Path,
+
+	getNode: function ( viewName ) {
+
+		var node = document.createElementNS( daign.SVGNS, 'path' );
+		this.nodes[ viewName ] = node;
+
+		var self = this;
+		var pathHandle = new daign.Handle( {
+			domNode: node,
+			vector0: new daign.Vector2(),
+			vectorT: new daign.Vector2(),
+			beginning: function () {
+				self.snap();
+			},
+			continuing: function () {
+				self.drag( this.vectorT.sub( this.vector0 ) );
+			},
+			ending: function () {},
+			clicked: function () {
+				self.document.app.selectionManager.setPath( self ); // path can be already active
+			}
+		} );
+
+		this.update();
+		return node;
+
+	},
 
 	append: function ( segment ) {
 
@@ -55,10 +65,14 @@ daign.Path.prototype = {
 		for ( var i = 0; i < this.segments.length; i++ ) {
 			d += this.segments[ i ].render();
 		}
-		this.node.setAttribute( 'd', d );
-		this.node.setAttribute( 'fill', '#ccc' );
-		this.node.setAttribute( 'stroke', '#000' );
-		this.node.setAttribute( 'stroke-width', 0.3 );
+
+		for ( var viewName in this.nodes ) {
+			var node = this.nodes[ viewName ];
+			node.setAttribute( 'd', d );
+			node.setAttribute( 'fill', '#ccc' );
+			node.setAttribute( 'stroke', '#000' );
+			node.setAttribute( 'stroke-width', 0.3 );
+		}
 
 	},
 

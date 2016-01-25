@@ -3,7 +3,7 @@ daign.ControlLayer = function ( viewport ) {
 	this.viewport = viewport;
 
 	this.node = document.createElementNS( daign.SVGNS, 'g' );
-	viewport.node.appendChild( this.node );
+	viewport.contextNode.appendChild( this.node );
 
 	this.pathPoints = [];
 	this.segmentLines = [];

@@ -1,12 +1,17 @@
-daign.Viewport = function ( app, viewsNode ) {
+daign.Viewport = function ( app, viewName, viewsNode ) {
 
-	this.node = document.createElementNS( daign.SVGNS, 'svg' );
-	this.node.setAttribute( 'class', 'viewport container' );
-	this.node.setAttribute( 'xmlns:xlink', daign.XLink );
-	viewsNode.appendChild( this.node );
+	this.viewName = viewName;
 
-	this.docNode = app.document.node;
-	this.node.appendChild( this.docNode );
+	this.contextNode = document.createElementNS( daign.SVGNS, 'svg' );
+	this.contextNode.setAttribute( 'class', 'viewport container' );
+	this.contextNode.setAttribute( 'xmlns:xlink', daign.XLink );
+	viewsNode.appendChild( this.contextNode );
+
+	this.transformNode = document.createElementNS( daign.SVGNS, 'g' );
+	this.contextNode.appendChild( this.transformNode );
+
+	var docNode = app.document.getNode( this.viewName );
+	this.transformNode.appendChild( docNode );
 
 	this.controls = new daign.ControlLayer( this );
 	app.selectionManager.addControlLayer( this.controls );
@@ -20,7 +25,7 @@ daign.Viewport = function ( app, viewsNode ) {
 
 	var self = this;
 	var viewHandle = new daign.Handle( {
-		domNode: self.node,
+		domNode: self.contextNode,
 		beginning: function () {
 			self.snap();
 		},
@@ -43,11 +48,11 @@ daign.Viewport.prototype = {
 
 	resize: function ( width, height, left, top ) {
 
-		this.node.style.width  = ( width-2 ) + 'px';
-		this.node.style.height = ( height-2 ) + 'px';
-		this.node.style.left = left + 'px';
-		this.node.style.top = top + 'px';
-		this.node.setAttribute( 'viewBox', 0 + ',' + 0 + ',' + width + ',' + height );
+		this.contextNode.style.width  = ( width-2 ) + 'px';
+		this.contextNode.style.height = ( height-2 ) + 'px';
+		this.contextNode.style.left = left + 'px';
+		this.contextNode.style.top = top + 'px';
+		this.contextNode.setAttribute( 'viewBox', 0 + ',' + 0 + ',' + width + ',' + height );
 		this.viewDimensions.set( width, height );
 		this.updateViewport();
 
@@ -57,7 +62,7 @@ daign.Viewport.prototype = {
 
 		var dx = ( this.viewDimensions.x * 0.5 ) - this.viewCenter.x;
 		var dy = ( this.viewDimensions.y * 0.5 ) - this.viewCenter.y;
-		this.docNode.setAttribute( 'transform', 'translate(' + dx + ',' + dy + ')' );
+		this.transformNode.setAttribute( 'transform', 'translate(' + dx + ',' + dy + ')' );
 
 	},
 
