@@ -40,6 +40,8 @@ daign.Handle = function ( settings ) {
 
 		};
 
+		var throttledContinue = daign.SCHEDULE.deferringThrottle( continueDrag, this, 40 );
+
 		var endDrag = function ( event ) {
 
 			event.preventDefault();
@@ -55,8 +57,8 @@ daign.Handle = function ( settings ) {
 
 			document.removeEventListener( 'selectstart', cancelSelect, false );
 
-			document.removeEventListener( 'mousemove',   continueDrag, false );
-			document.removeEventListener( 'touchmove',   continueDrag, false );
+			document.removeEventListener( 'mousemove',   throttledContinue, false );
+			document.removeEventListener( 'touchmove',   throttledContinue, false );
 
 			document.removeEventListener( 'mouseup',     endDrag, false );
 			document.removeEventListener( 'touchend',    endDrag, false );
@@ -67,8 +69,8 @@ daign.Handle = function ( settings ) {
 
 		document.addEventListener( 'selectstart', cancelSelect, false );
 
-		document.addEventListener( 'mousemove',   continueDrag, false );
-		document.addEventListener( 'touchmove',   continueDrag, false );
+		document.addEventListener( 'mousemove',   throttledContinue, false );
+		document.addEventListener( 'touchmove',   throttledContinue, false );
 
 		document.addEventListener( 'mouseup',     endDrag, false );
 		document.addEventListener( 'touchend',    endDrag, false );

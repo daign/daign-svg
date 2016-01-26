@@ -79,7 +79,7 @@ daign.Viewport.prototype = {
 
 	},
 
-	projectToViewCoordinates ( v ) {
+	projectToViewCoordinates: function ( v ) {
 
 		return this.viewDimensions.clone().multiplyScalar( 0.5 ).sub( this.viewCenter ).add( v );
 
