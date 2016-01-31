@@ -2,10 +2,14 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 
 	this.viewName = viewName;
 
+	this.node = document.createElement( 'div' );
+	this.node.setAttribute( 'class', 'viewport container' );
+	viewsNode.appendChild( this.node );
+
 	this.contextNode = document.createElementNS( daign.SVGNS, 'svg' );
-	this.contextNode.setAttribute( 'class', 'viewport container' );
+	this.contextNode.setAttribute( 'class', 'context container' );
 	this.contextNode.setAttribute( 'xmlns:xlink', daign.XLink );
-	viewsNode.appendChild( this.contextNode );
+	this.node.appendChild( this.contextNode );
 
 	this.transformNode = document.createElementNS( daign.SVGNS, 'g' );
 	this.contextNode.appendChild( this.transformNode );
@@ -18,7 +22,7 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 
 	this.viewCenter = new daign.Vector2( 50, 50 );
 	this.viewCenterSnaphot = undefined;
-	//this.viewScale = 1;
+	this.viewScale = 2;
 	this.viewDimensions = new daign.Vector2( 0, 0 );
 
 	this.updateViewport();
@@ -40,6 +44,20 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 		vectorT: new daign.Vector2()
 	} );
 
+	var onMouseWheel = function ( event ) {
+		var sign = Math.sign( event.deltaY );
+		var factor = Math.pow( 1.1, -sign );
+
+		self.viewScale *= factor;
+		var mousePosition = self.projectToDocumentCoordinates( new daign.Vector2( event.layerX, event.layerY ) );
+		self.viewCenter.copy( mousePosition.add( self.viewCenter.sub( mousePosition ).multiplyScalar( 1/factor ) ) );
+
+		self.updateViewport();
+		return false;
+	};
+
+	this.contextNode.addEventListener( 'wheel', onMouseWheel, false );
+
 };
 
 daign.Viewport.prototype = {
@@ -48,21 +66,32 @@ daign.Viewport.prototype = {
 
 	resize: function ( width, height, left, top ) {
 
-		this.contextNode.style.width  = ( width-2 ) + 'px';
-		this.contextNode.style.height = ( height-2 ) + 'px';
-		this.contextNode.style.left = left + 'px';
-		this.contextNode.style.top = top + 'px';
+		// because of border
+		width -= 2;
+		height -= 2;
+
+		this.node.style.width  = width + 'px';
+		this.node.style.height = height + 'px';
+		this.node.style.left = left + 'px';
+		this.node.style.top  = top + 'px';
+
+		this.contextNode.style.width  = width + 'px';
+		this.contextNode.style.height = height + 'px';
 		this.contextNode.setAttribute( 'viewBox', 0 + ',' + 0 + ',' + width + ',' + height );
-		this.viewDimensions.set( width, height );
+		this.viewDimensions.set( width-1, height-1 );
 		this.updateViewport();
 
 	},
 
 	updateViewport: function () {
 
-		var dx = ( this.viewDimensions.x * 0.5 ) - this.viewCenter.x;
-		var dy = ( this.viewDimensions.y * 0.5 ) - this.viewCenter.y;
-		this.transformNode.setAttribute( 'transform', 'translate(' + dx + ',' + dy + ')' );
+		var m1 = new daign.Matrix3().setTranslation( -this.viewCenter.x, -this.viewCenter.y );
+		var m2 = new daign.Matrix3().setScaling( this.viewScale, this.viewScale );
+		var m3 = new daign.Matrix3().setTranslation( this.viewDimensions.x * 0.5, this.viewDimensions.y * 0.5 );
+
+		m3.multiply( m2 ).multiply( m1 );
+
+		this.transformNode.setAttribute( 'transform', m3.toTransformAttribute() );
 
 	},
 
@@ -81,7 +110,23 @@ daign.Viewport.prototype = {
 
 	projectToViewCoordinates: function ( v ) {
 
-		return this.viewDimensions.clone().multiplyScalar( 0.5 ).sub( this.viewCenter ).add( v );
+		var m1 = new daign.Matrix3().setScaling( this.viewScale, this.viewScale );
+		var m2 = new daign.Matrix3().setTranslation( this.viewDimensions.x * 0.5, this.viewDimensions.y * 0.5 );
+		var m3 = new daign.Matrix3().setTranslation( -this.viewCenter.x, -this.viewCenter.y );
+
+		m2.multiply( m1 ).multiply( m3 );
+		return v.clone().transform( m2 );
+
+	},
+
+	projectToDocumentCoordinates: function ( v ) {
+
+		var m1 = new daign.Matrix3().setScaling( 1/this.viewScale, 1/this.viewScale );
+		var m2 = new daign.Matrix3().setTranslation( -this.viewDimensions.x * 0.5, -this.viewDimensions.y * 0.5 );
+		var m3 = new daign.Matrix3().setTranslation( this.viewCenter.x, this.viewCenter.y );
+
+		m3.multiply( m1 ).multiply( m2 );
+		return v.transform( m3 );
 
 	}
 

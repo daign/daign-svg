@@ -82,6 +82,17 @@ daign.Vector2.prototype = {
 
 	},
 
+	transform: function ( m ) {
+
+		var a = m.elements;
+		var x = a[0] * this.x + a[1] * this.y + a[2];
+		var y = a[3] * this.x + a[4] * this.y + a[5];
+		var w = a[6] * this.x + a[7] * this.y + a[8];
+		this.set( x/w, y/w );
+		return this;
+
+	},
+
 	min: function ( v ) {
 
 		this.set( Math.min( this.x, v.x ), Math.min( this.y, v.y ) );

@@ -20,8 +20,10 @@ body {
 	border-bottom: 1px solid #999;
 }
 .viewport {
-	background: #fff;
 	border: 1px solid #999;
+}
+.context {
+	background: #fff;
 }
 .documentTree {
 	background: #fff;
