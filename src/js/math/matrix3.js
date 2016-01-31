@@ -39,6 +39,13 @@ daign.Matrix3.prototype = {
 
 	},
 
+	applyTranslation: function ( x, y ) {
+
+		this.transform( new daign.Matrix3().setTranslation( x, y ) );
+		return this;
+
+	},
+
 	setScaling: function ( sx, sy ) {
 
 		this.set(
@@ -50,10 +57,15 @@ daign.Matrix3.prototype = {
 
 	},
 
-	multiply: function ( m ) {
+	applyScaling: function ( sx, sy ) {
 
-		var a = this.elements;
-		var b = m.elements;
+		this.transform( new daign.Matrix3().setScaling( sx, sy ) );
+		return this;
+
+	},
+
+	_matrixMultiplication: function ( a, b ) {
+
 		this.set(
 			a[0] * b[0] + a[1] * b[3] + a[2] * b[6],
 			a[0] * b[1] + a[1] * b[4] + a[2] * b[7],
@@ -65,11 +77,24 @@ daign.Matrix3.prototype = {
 			a[6] * b[1] + a[7] * b[4] + a[8] * b[7],
 			a[6] * b[2] + a[7] * b[5] + a[8] * b[8]
 		);
+
+	},
+
+	multiply: function ( m ) {
+
+		this._matrixMultiplication( this.elements, m.elements );
 		return this;
 
 	},
 
-	toTransformAttribute: function () {
+	transform: function ( m ) {
+
+		this._matrixMultiplication( m.elements, this.elements );
+		return this;
+
+	},
+
+	getTransformAttribute: function () {
 
 		var a = this.elements;
 		var b = [ a[0], a[3], a[1], a[4], a[2], a[5] ];

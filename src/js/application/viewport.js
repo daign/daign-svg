@@ -25,6 +25,9 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 	this.viewScale = 2;
 	this.viewDimensions = new daign.Vector2( 0, 0 );
 
+	this.transformMatrix = new daign.Matrix3();
+	this.backtransformMatrix = new daign.Matrix3();
+
 	this.updateViewport();
 
 	var self = this;
@@ -66,8 +69,7 @@ daign.Viewport.prototype = {
 
 	resize: function ( width, height, left, top ) {
 
-		// because of border
-		width -= 2;
+		width -= 2;  // because of border
 		height -= 2;
 
 		this.node.style.width  = width + 'px';
@@ -85,13 +87,17 @@ daign.Viewport.prototype = {
 
 	updateViewport: function () {
 
-		var m1 = new daign.Matrix3().setTranslation( -this.viewCenter.x, -this.viewCenter.y );
-		var m2 = new daign.Matrix3().setScaling( this.viewScale, this.viewScale );
-		var m3 = new daign.Matrix3().setTranslation( this.viewDimensions.x * 0.5, this.viewDimensions.y * 0.5 );
+		this.transformMatrix.setIdentity();
+		this.transformMatrix.applyTranslation( -this.viewCenter.x, -this.viewCenter.y );
+		this.transformMatrix.applyScaling( this.viewScale, this.viewScale );
+		this.transformMatrix.applyTranslation( this.viewDimensions.x * 0.5, this.viewDimensions.y * 0.5 );
 
-		m3.multiply( m2 ).multiply( m1 );
+		this.backtransformMatrix.setIdentity();
+		this.backtransformMatrix.applyTranslation( -this.viewDimensions.x * 0.5, -this.viewDimensions.y * 0.5 );
+		this.backtransformMatrix.applyScaling( 1/this.viewScale, 1/this.viewScale );
+		this.backtransformMatrix.applyTranslation( this.viewCenter.x, this.viewCenter.y );
 
-		this.transformNode.setAttribute( 'transform', m3.toTransformAttribute() );
+		this.transformNode.setAttribute( 'transform', this.transformMatrix.getTransformAttribute() );
 
 	},
 
@@ -110,23 +116,13 @@ daign.Viewport.prototype = {
 
 	projectToViewCoordinates: function ( v ) {
 
-		var m1 = new daign.Matrix3().setScaling( this.viewScale, this.viewScale );
-		var m2 = new daign.Matrix3().setTranslation( this.viewDimensions.x * 0.5, this.viewDimensions.y * 0.5 );
-		var m3 = new daign.Matrix3().setTranslation( -this.viewCenter.x, -this.viewCenter.y );
-
-		m2.multiply( m1 ).multiply( m3 );
-		return v.clone().transform( m2 );
+		return v.clone().transform( this.transformMatrix );
 
 	},
 
 	projectToDocumentCoordinates: function ( v ) {
 
-		var m1 = new daign.Matrix3().setScaling( 1/this.viewScale, 1/this.viewScale );
-		var m2 = new daign.Matrix3().setTranslation( -this.viewDimensions.x * 0.5, -this.viewDimensions.y * 0.5 );
-		var m3 = new daign.Matrix3().setTranslation( this.viewCenter.x, this.viewCenter.y );
-
-		m3.multiply( m1 ).multiply( m2 );
-		return v.transform( m3 );
+		return v.transform( this.backtransformMatrix );
 
 	}
 
