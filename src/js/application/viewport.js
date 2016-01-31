@@ -37,7 +37,7 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 			self.snap();
 		},
 		continuing: function () {
-			self.drag( this.vectorT.sub( this.vector0 ) );
+			self.drag( this.vectorT.clone().sub( this.vector0 ) );
 		},
 		ending: function () {},
 		clicked: function () {
@@ -109,7 +109,7 @@ daign.Viewport.prototype = {
 
 	drag: function ( v ) {
 
-		this.viewCenter.copy( this.viewCenterSnaphot ).sub( v.multiplyScalar( 1 ) );
+		this.viewCenter.copy( this.viewCenterSnaphot ).sub( v.multiplyScalar( 1/this.viewScale ) );
 		this.updateViewport();
 
 	},
