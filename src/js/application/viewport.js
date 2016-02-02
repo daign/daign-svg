@@ -51,7 +51,10 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 		var sign = Math.sign( event.deltaY );
 		var factor = Math.pow( 1.1, -sign );
 
-		self.viewScale *= factor;
+		var oldScale = self.viewScale;
+		self.viewScale = Math.max( 0.01, Math.min( 1000, oldScale * factor ) );
+		factor = self.viewScale / oldScale;
+
 		var mousePosition = self.projectToDocumentCoordinates( new daign.Vector2( event.layerX, event.layerY ) );
 		self.viewCenter.copy( mousePosition.add( self.viewCenter.sub( mousePosition ).multiplyScalar( 1/factor ) ) );
 

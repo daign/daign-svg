@@ -1,9 +1,9 @@
-daign.PathSegment = function ( points, parameters, previous, document ) {
+daign.PathSegment = function ( points, parameters, previous, app ) {
 
 	this.points = points;
 	this.parameters = parameters;
 	this.previous = previous;
-	this.document = document;
+	this.app = app;
 
 };
 
@@ -50,7 +50,7 @@ daign.PathSegment.prototype = {
 				},
 				ending: function () {},
 				clicked: function () {
-					self.document.app.selectionManager.setSegment( self );
+					self.app.selectionManager.setSegment( self );
 				},
 				vector0: new daign.Vector2(),
 				vectorT: new daign.Vector2()
