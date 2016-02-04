@@ -1,5 +1,7 @@
 daign.Path = function ( app ) {
 
+	this.type = 'Path';
+
 	this.app = app;
 
 	this.segments = [];
@@ -159,4 +161,6 @@ daign.Path.prototype = {
 	}
 
 };
+
+daign.mixin( daign.Path, daign.Selectable );
 

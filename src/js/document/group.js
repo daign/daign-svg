@@ -1,5 +1,7 @@
 daign.Group = function ( app ) {
 
+	this.type = 'Group';
+
 	this.nodes = {};
 	this.children = [];
 
@@ -23,4 +25,7 @@ daign.Group.prototype = {
 	}
 
 };
+
+daign.mixin( daign.Group, daign.Transformable );
+daign.mixin( daign.Group, daign.Selectable );
 

@@ -1,5 +1,7 @@
 daign.Document = function ( app ) {
 
+	this.type = 'Document';
+
 	this.nodes = {};
 	this.drawingGroups = {};
 	this.children = [];
@@ -72,4 +74,6 @@ daign.Document.prototype = {
 	}
 
 };
+
+daign.mixin( daign.Document, daign.Selectable );
 
