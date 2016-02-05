@@ -1,5 +1,7 @@
 daign.Viewport = function ( app, viewName, viewsNode ) {
 
+	this.app = app;
+
 	this.viewName = viewName;
 
 	this.node = document.createElement( 'div' );
@@ -41,7 +43,7 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 		},
 		ending: function () {},
 		clicked: function () {
-			self.controls.showPath( null );
+			app.selectionManager.deselect();
 		},
 		vector0: new daign.Vector2(),
 		vectorT: new daign.Vector2()
@@ -101,6 +103,8 @@ daign.Viewport.prototype = {
 		this.backtransformMatrix.applyTranslation( this.viewCenter.x, this.viewCenter.y );
 
 		this.transformNode.setAttribute( 'transform', this.transformMatrix.getTransformAttribute() );
+
+		this.controls.update();
 
 	},
 

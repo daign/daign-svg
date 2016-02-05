@@ -1,9 +1,15 @@
 daign.PathSegment = function ( points, parameters, previous, app ) {
 
+	this.app = app;
+
+	daign.mixin( this, new daign.Selectable() );
+
+	this.type = 'Path Segment';
+
 	this.points = points;
 	this.parameters = parameters;
 	this.previous = previous;
-	this.app = app;
+	this.parent = undefined;
 
 };
 

@@ -1,5 +1,8 @@
 daign.Group = function ( app ) {
 
+	daign.mixin( this, new daign.Selectable() );
+	daign.mixin( this, new daign.Transformable() );
+
 	this.type = 'Group';
 
 	this.nodes = {};
@@ -25,7 +28,4 @@ daign.Group.prototype = {
 	}
 
 };
-
-daign.mixin( daign.Group, daign.Transformable );
-daign.mixin( daign.Group, daign.Selectable );
 

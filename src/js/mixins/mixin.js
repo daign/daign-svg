@@ -1,8 +1,8 @@
 daign.mixin = function ( target, mixin ) {
 
-	for ( var property in mixin.prototype ) {
-		if ( !target.prototype[ property ] ) {
-			target.prototype[ property ] = mixin.prototype[ property ];
+	for ( var property in mixin ) {
+		if ( !target[ property ] ) {
+			target[ property ] = mixin[ property ];
 		}
 	}
 

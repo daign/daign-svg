@@ -2,6 +2,8 @@ daign.PathSegmentQuadratic = function ( points, parameters, previous, app ) {
 
 	daign.PathSegment.call( this, points, parameters, previous, app );
 
+	this.type = 'Quadratic';
+
 };
 
 daign.PathSegmentQuadratic.prototype = Object.create( daign.PathSegment.prototype );

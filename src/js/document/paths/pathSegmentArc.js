@@ -1,6 +1,9 @@
 daign.PathSegmentArc = function ( points, parameters, previous, app ) {
 
 	daign.PathSegment.call( this, points, parameters, previous, app );
+
+	this.type = 'Arc';
+
 	var p0 = this.points[ 0 ];
 	var pp = this.previous.getEndPoint();
 	var px = new daign.Vector2();

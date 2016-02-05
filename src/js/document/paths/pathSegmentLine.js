@@ -2,6 +2,8 @@ daign.PathSegmentLine = function ( points, parameters, previous, app ) {
 
 	daign.PathSegment.call( this, points, parameters, previous, app );
 
+	this.type = 'Line';
+
 };
 
 daign.PathSegmentLine.prototype = Object.create( daign.PathSegment.prototype );

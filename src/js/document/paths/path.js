@@ -1,10 +1,12 @@
 daign.Path = function ( app ) {
 
-	this.type = 'Path';
-
 	this.app = app;
 
-	this.segments = [];
+	daign.mixin( this, new daign.Selectable() );
+	daign.mixin( this, new daign.Transformable() );
+
+	this.type = 'Path';
+	this.children = [];
 	this.nodes = {};
 
 };
@@ -47,14 +49,15 @@ daign.Path.prototype = {
 			self.update();
 		};
 		segment.setListeners( update );
-		this.segments.push( segment );
+		segment.parent = this;
+		this.children.push( segment );
 
 	},
 
 	getLastSegment: function () {
 
-		if ( this.segments.length > 0 ) {
-			return this.segments[ this.segments.length-1 ];
+		if ( this.children.length > 0 ) {
+			return this.children[ this.children.length-1 ];
 		} else {
 			return undefined;
 		}
@@ -64,8 +67,8 @@ daign.Path.prototype = {
 	update: function () {
 
 		var d = '';
-		for ( var i = 0; i < this.segments.length; i++ ) {
-			d += this.segments[ i ].render();
+		for ( var i = 0; i < this.children.length; i++ ) {
+			d += this.children[ i ].render();
 		}
 
 		for ( var viewName in this.nodes ) {
@@ -80,7 +83,7 @@ daign.Path.prototype = {
 
 	snap: function () {
 
-		this.segments.forEach( function( seg ) {
+		this.children.forEach( function( seg ) {
 			seg.points.forEach( function ( p ) {
 				p.snap();
 			} );
@@ -91,7 +94,7 @@ daign.Path.prototype = {
 	drag: function ( v ) {
 
 		v.multiplyScalar( 0.25 );
-		this.segments.forEach( function( seg ) {
+		this.children.forEach( function( seg ) {
 			seg.points.forEach( function ( p ) {
 				p.drag( v );
 			} );
@@ -102,7 +105,7 @@ daign.Path.prototype = {
 
 	setUpControls: function ( pointsArray, pointsGroup, viewport ) {
 
-		this.segments.forEach( function ( segment ) {
+		this.children.forEach( function ( segment ) {
 			segment.setUpEndControl( pointsArray, pointsGroup, viewport );
 		} );
 
@@ -161,6 +164,4 @@ daign.Path.prototype = {
 	}
 
 };
-
-daign.mixin( daign.Path, daign.Selectable );
 

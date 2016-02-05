@@ -28,6 +28,14 @@ body {
 .documentTree {
 	background: #fff;
 	border: 1px solid #999;
+	overflow-y: scroll;
+}
+.treeViewNode {
+	padding: 2px 0px 2px 6px;
+	cursor: pointer;
+}
+.treeViewNode:hover {
+	background: #bcd;
 }
 .status {
 	background: #bcd;
@@ -44,6 +52,6 @@ body {
 .controlLine {
 	fill: none;
 	stroke: #f00;
-	stroke-width: 1.5;
+	stroke-width: 2.5;
 }
 

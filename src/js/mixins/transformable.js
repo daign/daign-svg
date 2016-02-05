@@ -1,8 +1,12 @@
-daign.Transformable = {};
+daign.Transformable = function () {
+
+	this.origin = daign.Vector2();
+
+};
 
 daign.Transformable.prototype = {
 
-	origin: daign.Vector2()
+	constructor: daign.Transformable
 
 };
 

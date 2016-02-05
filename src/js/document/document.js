@@ -1,5 +1,7 @@
 daign.Document = function ( app ) {
 
+	daign.mixin( this, new daign.Selectable() );
+
 	this.type = 'Document';
 
 	this.nodes = {};
@@ -74,6 +76,4 @@ daign.Document.prototype = {
 	}
 
 };
-
-daign.mixin( daign.Document, daign.Selectable );
 

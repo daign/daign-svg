@@ -2,6 +2,8 @@ daign.PathSegmentMove = function ( points, parameters, previous, app ) {
 
 	daign.PathSegment.call( this, points, parameters, previous, app );
 
+	this.type = 'Move';
+
 };
 
 daign.PathSegmentMove.prototype = Object.create( daign.PathSegment.prototype );

@@ -61,6 +61,20 @@ daign.ControlLayer.prototype = {
 			segment.setUpControls( this.segmentPoints, this.segmentPointsGroup, this.segmentLines, this.segmentLinesGroup, this.viewport );
 		}
 
+	},
+
+	update: function () {
+
+		this.pathPoints.forEach( function ( p ) {
+			p.update();
+		} );
+		this.segmentPoints.forEach( function ( p ) {
+			p.update();
+		} );
+		this.segmentLines.forEach( function ( l ) {
+			l.update();
+		} );
+
 	}
 
 };

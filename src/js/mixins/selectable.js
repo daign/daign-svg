@@ -1,17 +1,25 @@
-daign.Selectable = {};
+daign.Selectable = function () {
+
+	this.treeViewNode = document.createElement( 'div' );
+	this.treeViewNode.setAttribute( 'class', 'treeViewNode' );
+
+};
 
 daign.Selectable.prototype = {
 
-	treeViewNode: document.createElement( 'div' ),
+	constructor: daign.Selectable,
 
 	getTreeViewNode: function ( h ) {
 
-		var res = '';
-		for ( var i = 0; i < h; i++ ) {
-			res += '-';
-		}
-		this.treeViewNode.innerHTML = res + this.type;
+		this.treeViewNode.style.paddingLeft = ( 16 * h + 6 ) + 'px';
+		this.treeViewNode.innerHTML = this.type;
 		return this.treeViewNode;
+
+	},
+
+	select: function ( b ) {
+
+		this.treeViewNode.style.background = ( b ? '#bcd' : '#fff' );
 
 	}
 
