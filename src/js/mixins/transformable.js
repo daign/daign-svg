@@ -4,9 +4,3 @@ daign.Transformable = function () {
 
 };
 
-daign.Transformable.prototype = {
-
-	constructor: daign.Transformable
-
-};
-

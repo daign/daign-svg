@@ -23,11 +23,15 @@ daign.DocumentTree.prototype = {
 
 	build: function () {
 
+		while ( this.node.firstChild ) {
+			this.node.removeChild( this.node.firstChild );
+		}
+
 		var self = this;
 		var traverse = function ( parent, h ) {
 			self.node.appendChild( parent.getTreeViewNode( h ) );
 
-			if ( parent.children !== undefined ) {
+			if ( parent.children.length > 0 && parent.branchesOpen ) {
 				parent.children.forEach( function ( child ) {
 					traverse( child, h+1 );
 				} );

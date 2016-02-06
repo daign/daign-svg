@@ -2,12 +2,23 @@ daign.Path = function ( app ) {
 
 	this.app = app;
 
-	daign.mixin( this, new daign.Selectable() );
-	daign.mixin( this, new daign.Transformable() );
+	daign.Selectable.call( this );
+	daign.Transformable.call( this );
 
 	this.type = 'Path';
-	this.children = [];
 	this.nodes = {};
+
+	this.append = function ( segment ) {
+
+		var self = this;
+		var update = function () {
+			self.update();
+		};
+		segment.setListeners( update );
+		segment.parent = this;
+		this.children.push( segment );
+
+	};
 
 };
 
@@ -39,18 +50,6 @@ daign.Path.prototype = {
 
 		this.update();
 		return node;
-
-	},
-
-	append: function ( segment ) {
-
-		var self = this;
-		var update = function () {
-			self.update();
-		};
-		segment.setListeners( update );
-		segment.parent = this;
-		this.children.push( segment );
 
 	},
 

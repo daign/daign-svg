@@ -1,12 +1,13 @@
 daign.Group = function ( app ) {
 
-	daign.mixin( this, new daign.Selectable() );
-	daign.mixin( this, new daign.Transformable() );
+	this.app = app;
+
+	daign.Selectable.call( this );
+	daign.Transformable.call( this );
 
 	this.type = 'Group';
 
 	this.nodes = {};
-	this.children = [];
 
 };
 

@@ -1,41 +1,41 @@
 daign.Document = function ( app ) {
 
-	daign.mixin( this, new daign.Selectable() );
+	this.app = app;
+
+	daign.Selectable.call( this );
 
 	this.type = 'Document';
 
 	this.nodes = {};
 	this.drawingGroups = {};
-	this.children = [];
 
 	this.page = new daign.Page();
 
-
 	var path0 = new daign.Path( app );
 	path0.parse( 'M 5,5 L 15,5 A 5,5,0,0,1,5,5 Z' );
-	this.children.push( path0 );
+	this.append( path0 );
 
 	var group1 = new daign.Group( app );
-	this.children.push( group1 );
+	this.append( group1 );
 
 	var path1 = new daign.Path( app );
 	path1.parse( 'M 20,20 L 60,20 Q 50,50,80,40 L 80,60 C 50,60,80,80,60,80 L 40,80 A 20,20,0,0,0,20,60 Z' );
-	group1.children.push( path1 );
+	group1.append( path1 );
 
 	var path2 = new daign.Path( app );
 	path2.parse( 'M 15,30 L 25,30 Q 30,60,40,50 L 40,60 15,50 Z' );
-	group1.children.push( path2 );
+	group1.append( path2 );
 
 	var group2 = new daign.Group( app );
-	this.children.push( group2 );
+	this.append( group2 );
 
 	var path3 = new daign.Path( app );
 	path3.parse( 'M 20,70 L 30,90 10,90 Z' );
-	group2.children.push( path3 );
+	group2.append( path3 );
 
 	var path4 = new daign.Path( app );
 	path4.parse( 'M 80,70 L 90,90 70,90 Z' );
-	group2.children.push( path4 );
+	group2.append( path4 );
 
 };
 
