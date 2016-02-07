@@ -31,7 +31,7 @@ daign.DocumentTree.prototype = {
 		var traverse = function ( parent, h ) {
 			self.node.appendChild( parent.getTreeViewNode( h ) );
 
-			if ( parent.children.length > 0 && parent.branchesOpen ) {
+			if ( parent.children.length > 0 && parent.expanded ) {
 				parent.children.forEach( function ( child ) {
 					traverse( child, h+1 );
 				} );

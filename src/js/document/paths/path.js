@@ -1,11 +1,11 @@
 daign.Path = function ( app ) {
 
 	this.app = app;
+	this.type = 'Path';
 
-	daign.Selectable.call( this );
+	daign.Selectable.call( this, true );
 	daign.Transformable.call( this );
 
-	this.type = 'Path';
 	this.nodes = {};
 
 	this.append = function ( segment ) {
@@ -17,6 +17,7 @@ daign.Path = function ( app ) {
 		segment.setListeners( update );
 		segment.parent = this;
 		this.children.push( segment );
+		this.setExpand( this.expanded );
 
 	};
 

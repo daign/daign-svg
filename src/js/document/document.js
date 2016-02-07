@@ -1,15 +1,15 @@
 daign.Document = function ( app ) {
 
 	this.app = app;
-
-	daign.Selectable.call( this );
-
 	this.type = 'Document';
+
+	daign.Selectable.call( this, false );
 
 	this.nodes = {};
 	this.drawingGroups = {};
 
 	this.page = new daign.Page();
+
 
 	var path0 = new daign.Path( app );
 	path0.parse( 'M 5,5 L 15,5 A 5,5,0,0,1,5,5 Z' );

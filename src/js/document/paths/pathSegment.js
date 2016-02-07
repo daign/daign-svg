@@ -2,9 +2,7 @@ daign.PathSegment = function ( points, parameters, previous, app ) {
 
 	this.app = app;
 
-	daign.Selectable.call( this );
-
-	this.type = 'Path Segment';
+	daign.Selectable.call( this, false );
 
 	this.points = points;
 	this.parameters = parameters;

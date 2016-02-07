@@ -31,12 +31,34 @@ body {
 	overflow-y: scroll;
 }
 .treeViewNode {
-	padding: 2px 0px 2px 6px;
-	cursor: pointer;
+	cursor: default;
+	border-bottom: 1px solid #bcd;
 }
 .treeViewNode:hover {
 	background: #bcd;
 }
+.treeViewNode .visibility{
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	font-size: 13px;
+}
+.treeViewNode .expand {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	font-size: 13px;
+}
+.treeViewNode .text {
+	display: inline-block;
+	height: 17px;
+	font-size: 12px;
+	position: relative;
+	top: 1px;
+}
+
 .status {
 	background: #bcd;
 }
@@ -44,6 +66,7 @@ body {
 .title {
 	display: inline-block;
 	padding: 0px 4px 0px 6px;
+	cursor: default;
 }
 
 .controlPoint {

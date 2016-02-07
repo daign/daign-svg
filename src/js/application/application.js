@@ -11,6 +11,8 @@ daign.Application = function ( node ) {
 	this.content = new daign.Content( this );
 	this.status  = new daign.Status( this );
 
+	this.document.setExpand( true );
+
 	var postponedResize = daign.SCHEDULE.postpone( this.resize, this, 20 );
 	var throttledResize = daign.SCHEDULE.deferringThrottle( this.resize, this, 40 );
 
