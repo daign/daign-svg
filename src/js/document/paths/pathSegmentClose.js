@@ -16,3 +16,9 @@ daign.PathSegmentClose.prototype.render = function () {
 
 };
 
+daign.PathSegmentClose.prototype.setUpControls = function ( controlLayer ) {
+
+	this.parent.setUpControls( controlLayer );
+
+};
+

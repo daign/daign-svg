@@ -28,9 +28,9 @@ daign.Selectable = function ( hideable ) {
 	var self = this;
 
 	var onClick = function ( event ) {
-		;
+		self.app.selectionManager.select( self );
 	};
-	this.treeViewNode.addEventListener( 'click', onExpand, false );
+	this.treeViewNode.addEventListener( 'click', onClick, false );
 
 	var onExpand = function ( event ) {
 		if ( self.children.length > 0 ) {
@@ -65,9 +65,16 @@ daign.Selectable = function ( hideable ) {
 
 	};
 
-	this.select = function ( b ) {
+	this.select = function ( b, controlLayers ) {
 
 		this.treeViewNode.style.background = ( b ? '#bcd' : '#fff' );
+		if ( b ) {
+			var self = this;
+			controlLayers.forEach( function ( c ) {
+				c.clear();
+				self.setUpControls( c );
+			} );
+		}
 
 	};
 

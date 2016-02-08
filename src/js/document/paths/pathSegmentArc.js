@@ -34,14 +34,16 @@ daign.PathSegmentArc.prototype.render = function () {
 
 };
 
-daign.PathSegmentArc.prototype.setUpControls = function ( pointsArray, pointsGroup, linesArray, linesGroup, viewport ) {
+daign.PathSegmentArc.prototype.setUpControls = function ( controlLayer ) {
 
-	var line1 = new daign.ControlLine( linesGroup, this.points[ 1 ], this.points[ 0 ], viewport );
-	linesArray.push( line1 );
+	this.parent.setUpControls( controlLayer );
+
+	var line1 = new daign.ControlLine( controlLayer.segmentLinesGroup, this.points[ 1 ], this.points[ 0 ], controlLayer.viewport );
+	controlLayer.segmentLines.push( line1 );
 
 	if ( this.previous !== undefined && this.previous.getEndPoint() !== undefined ) {
-		var line2 = new daign.ControlLine( linesGroup, this.points[ 0 ], this.previous.getEndPoint(), viewport );
-		linesArray.push( line2 );
+		var line2 = new daign.ControlLine( controlLayer.segmentLinesGroup, this.points[ 0 ], this.previous.getEndPoint(), controlLayer.viewport );
+		controlLayer.segmentLines.push( line2 );
 	}
 
 	var self = this;
@@ -78,8 +80,8 @@ daign.PathSegmentArc.prototype.setUpControls = function ( pointsArray, pointsGro
 		vector0: new daign.Vector2(),
 		vectorT: new daign.Vector2()
 	};
-	var cPoint = new daign.ControlPoint( pointsGroup, px, settings, viewport );
-	pointsArray.push( cPoint );
+	var cPoint = new daign.ControlPoint( controlLayer.segmentPointsGroup, px, settings, controlLayer.viewport );
+	controlLayer.segmentPoints.push( cPoint );
 
 };
 

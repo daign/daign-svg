@@ -43,7 +43,7 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 		},
 		ending: function () {},
 		clicked: function () {
-			app.selectionManager.deselect();
+			app.selectionManager.select( null );
 		},
 		vector0: new daign.Vector2(),
 		vectorT: new daign.Vector2()

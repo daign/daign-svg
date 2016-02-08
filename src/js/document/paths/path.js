@@ -45,7 +45,7 @@ daign.Path.prototype = {
 			},
 			ending: function () {},
 			clicked: function () {
-				self.app.selectionManager.setPath( self ); // path can be already active
+				self.app.selectionManager.select( self ); // path can be already active
 			}
 		} );
 
@@ -103,10 +103,10 @@ daign.Path.prototype = {
 
 	},
 
-	setUpControls: function ( pointsArray, pointsGroup, viewport ) {
+	setUpControls: function ( controlLayer ) {
 
 		this.children.forEach( function ( segment ) {
-			segment.setUpEndControl( pointsArray, pointsGroup, viewport );
+			segment.setUpEndControl( controlLayer );
 		} );
 
 	},

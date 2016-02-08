@@ -1,7 +1,8 @@
 daign.SelectionManager = function () {
 
+	this.selected = null;
+	this.last_selected = null;
 	this.controlLayers = [];
-	this.selected = undefined;
 
 };
 
@@ -15,36 +16,21 @@ daign.SelectionManager.prototype = {
 
 	},
 
-	setPath: function ( path ) {
+	select: function ( o ) {
 
-		this.deselect();
-		this.selected = path;
-		this.selected.select( true );
-		this.controlLayers.forEach( function ( c ) {
-			c.showPath( path );
-		} );
+		if ( this.selected !== null ) {
+			if ( this.selected !== o ) {
+				this.selected.select( false, this.controlLayers );
+			}
+			this.last_selected = this.selected;
+		}
 
-	},
-
-	setSegment: function ( segment ) {
-
-		this.deselect();
-		this.selected = segment;
-		this.selected.select( true );
-		this.controlLayers.forEach( function ( c ) {
-			c.showPath( segment.parent );
-			c.showSegment( segment );
-		} );
-
-	},
-
-	deselect: function () {
-
-		if ( this.selected !== undefined ) {
-			this.selected.select( false );
-			this.selected = undefined;
+		this.selected = o;
+		if ( this.selected !== null ) {
+			this.selected.select( true, this.controlLayers );
+		} else {
 			this.controlLayers.forEach( function ( c ) {
-				c.showPath( null );
+				c.clear();
 			} );
 		}
 

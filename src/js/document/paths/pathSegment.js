@@ -38,7 +38,7 @@ daign.PathSegment.prototype = {
 
 	},
 
-	setUpEndControl: function ( pointsArray, pointsGroup, viewport ) {
+	setUpEndControl: function ( controlLayer ) {
 
 		var lastPoint = this.getEndPoint();
 		if ( lastPoint !== undefined ) {
@@ -53,18 +53,20 @@ daign.PathSegment.prototype = {
 				},
 				ending: function () {},
 				clicked: function () {
-					self.app.selectionManager.setSegment( self );
+					self.app.selectionManager.select( self );
 				},
 				vector0: new daign.Vector2(),
 				vectorT: new daign.Vector2()
 			}
-			var cPoint = new daign.ControlPoint( pointsGroup, lastPoint, settings, viewport );
-			pointsArray.push( cPoint );
+			var cPoint = new daign.ControlPoint( controlLayer.pathGroup, lastPoint, settings, controlLayer.viewport );
+			controlLayer.pathPoints.push( cPoint );
 		}
 
 	},
 
-	setUpControls: function ( pointsArray, pointsGroup, linesArray, linesGroup, viewport ) {
+	setUpControls: function ( controlLayer ) {
+
+		this.parent.setUpControls( controlLayer );
 
 		var lastPoint = this.getEndPoint();
 		var self = this;
@@ -84,18 +86,18 @@ daign.PathSegment.prototype = {
 					vector0: new daign.Vector2(),
 					vectorT: new daign.Vector2()
 				};
-				var cPoint = new daign.ControlPoint( pointsGroup, pointI, settings, viewport );
-				pointsArray.push( cPoint );
+				var cPoint = new daign.ControlPoint( controlLayer.segmentPointsGroup, pointI, settings, controlLayer.viewport );
+				controlLayer.segmentPoints.push( cPoint );
 			} )();
 
 			var nextPoint = this.points[ i ];
-			var line = new daign.ControlLine( linesGroup, lastPoint, nextPoint, viewport );
-			linesArray.push( line );
+			var line = new daign.ControlLine( controlLayer.segmentLinesGroup, lastPoint, nextPoint, controlLayer.viewport );
+			controlLayer.segmentLines.push( line );
 			lastPoint = nextPoint;
 		}
 		if ( this.previous !== undefined && this.previous.getEndPoint() !== undefined ) {
-			var line = new daign.ControlLine( linesGroup, lastPoint, this.previous.getEndPoint(), viewport );
-			linesArray.push( line );
+			var line = new daign.ControlLine( controlLayer.segmentLinesGroup, lastPoint, this.previous.getEndPoint(), controlLayer.viewport );
+			controlLayer.segmentLines.push( line );
 		}
 
 	}

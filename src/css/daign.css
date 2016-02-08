@@ -34,9 +34,6 @@ body {
 	cursor: default;
 	border-bottom: 1px solid #bcd;
 }
-.treeViewNode:hover {
-	background: #bcd;
-}
 .treeViewNode .visibility{
 	display: inline-block;
 	width: 18px;

@@ -62,6 +62,8 @@ daign.Document.prototype = {
 
 	},
 
+	setUpControls: function ( controlLayer ) {},
+
 	toString: function () {
 
 		var x = this.page.x;

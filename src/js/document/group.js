@@ -25,7 +25,9 @@ daign.Group.prototype = {
 
 		return node;
 
-	}
+	},
+
+	setUpControls: function ( controlLayer ) {}
 
 };
 

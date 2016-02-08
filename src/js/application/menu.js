@@ -6,7 +6,7 @@ daign.Menu = function ( app ) {
 
 	this.title = document.createElement( 'div' );
 	this.title.setAttribute( 'class', 'title' );
-	this.title.innerHTML = 'daign svg';
+	this.title.innerHTML = 'daign SVG';
 	this.node.appendChild( this.title );
 
 	this.saveButton = document.createElement( 'button' );
