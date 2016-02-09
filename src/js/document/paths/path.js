@@ -45,7 +45,7 @@ daign.Path.prototype = {
 			},
 			ending: function () {},
 			clicked: function () {
-				self.app.selectionManager.select( self ); // path can be already active
+				self.app.selectionManager.select( self );
 			}
 		} );
 

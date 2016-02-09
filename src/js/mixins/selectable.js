@@ -118,5 +118,81 @@ daign.Selectable = function ( hideable ) {
 
 	};
 
+	this.getPrevious = function () {
+
+		if ( this.parent !== undefined ) {
+			var siblings = this.parent.children;
+			var i = siblings.indexOf( this );
+			if ( i-1 >= 0 ) {
+				return siblings[ i-1 ];
+			} else {
+				return this.parent;
+			}
+		} else {
+			return undefined;
+		}
+
+	};
+
+	this.getNext = function () {
+
+		if ( this.parent !== undefined ) {
+			var siblings = this.parent.children;
+			var i = siblings.indexOf( this );
+			if ( i+1 < siblings.length ) {
+				return siblings[ i+1 ];
+			} else {
+				return this.parent.getNext();
+			}
+		} else {
+			return undefined;
+		}
+
+	};
+
+	this.up = function () {
+
+		var previous = this.getPrevious();
+		if ( previous === undefined ) {
+			if ( this.parent !== undefined ) {
+				this.app.selectionManager.select( this.parent );
+			}
+		} else {
+			this.app.selectionManager.select( previous );
+		}
+
+	};
+
+	this.down = function () {
+
+		if ( this.expanded && this.children.length > 0 ) {
+			this.app.selectionManager.select( this.children[ 0 ] );
+		} else {
+			var next = this.getNext();
+			if ( next !== undefined ) {
+				this.app.selectionManager.select( next );
+			}
+		}
+
+	};
+
+	this.left = function () {
+
+		if ( this.expanded ) {
+			this.setExpand( false );
+		} else if ( this.parent !== undefined ) {
+			this.app.selectionManager.select( this.parent );
+		}
+
+	};
+
+	this.right = function () {
+
+		if ( !this.expanded ) {
+			this.setExpand( true );
+		}
+
+	};
+
 };
 

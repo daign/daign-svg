@@ -1,9 +1,14 @@
 daign.KeyEventManager = function ( app ) {
 
 	var onKeydown = function ( event ) {
-		//console.log( event.keyCode );
+		var keyCode = event.keyCode;
+		//console.log( keyCode );
+
+		if ( keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40 ) {
+			app.selectionManager.onKeyDown( keyCode );
+		}
 	};
-	app.node.addEventListener( 'keydown', onKeydown, false );
+	document.addEventListener( 'keydown', onKeydown, false );
 
 };
 

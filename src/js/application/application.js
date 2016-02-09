@@ -12,6 +12,7 @@ daign.Application = function ( node ) {
 	this.status  = new daign.Status( this );
 
 	this.document.setExpand( true );
+	this.selectionManager.last_selected = this.document;
 
 	var postponedResize = daign.SCHEDULE.postpone( this.resize, this, 20 );
 	var throttledResize = daign.SCHEDULE.deferringThrottle( this.resize, this, 40 );
