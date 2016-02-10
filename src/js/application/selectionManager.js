@@ -51,6 +51,8 @@ daign.SelectionManager.prototype = {
 				this.selected.right();
 			} else if ( keyCode === 40 ) {
 				this.selected.down();
+			} else if ( keyCode === 72 ) {
+				this.selected.toggleHide();
 			}
 		}
 

@@ -4,7 +4,9 @@ daign.KeyEventManager = function ( app ) {
 		var keyCode = event.keyCode;
 		//console.log( keyCode );
 
-		if ( keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40 ) {
+		if ( keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40 || keyCode === 72 ) {
+			event.preventDefault();
+			event.stopPropagation();
 			app.selectionManager.onKeyDown( keyCode );
 		}
 	};

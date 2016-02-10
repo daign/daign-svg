@@ -118,13 +118,18 @@ daign.Selectable = function ( hideable ) {
 
 	};
 
+	// get previous element visible in tree view
 	this.getPrevious = function () {
 
 		if ( this.parent !== undefined ) {
 			var siblings = this.parent.children;
 			var i = siblings.indexOf( this );
 			if ( i-1 >= 0 ) {
-				return siblings[ i-1 ];
+				var previous = siblings[ i-1 ];
+				while ( previous.expanded && previous.children.length > 0 ) {
+					previous = previous.children[ previous.children.length - 1 ];
+				}
+				return previous;
 			} else {
 				return this.parent;
 			}
@@ -134,48 +139,48 @@ daign.Selectable = function ( hideable ) {
 
 	};
 
+	// get next element visible in tree view
 	this.getNext = function () {
 
-		if ( this.parent !== undefined ) {
-			var siblings = this.parent.children;
-			var i = siblings.indexOf( this );
-			if ( i+1 < siblings.length ) {
-				return siblings[ i+1 ];
-			} else {
-				return this.parent.getNext();
-			}
+		if ( this.expanded && this.children.length > 0 ) {
+			this.app.selectionManager.select( this.children[ 0 ] );
 		} else {
+			var self = this;
+			while ( self.parent !== undefined ) {
+				var siblings = self.parent.children;
+				var i = siblings.indexOf( self );
+				if ( i+1 < siblings.length ) {
+					return siblings[ i+1 ];
+				} else {
+					self = self.parent;
+				}
+			}
 			return undefined;
 		}
 
 	};
 
+	// select previous element visible in tree view
 	this.up = function () {
 
 		var previous = this.getPrevious();
-		if ( previous === undefined ) {
-			if ( this.parent !== undefined ) {
-				this.app.selectionManager.select( this.parent );
-			}
-		} else {
+		if ( previous !== undefined ) {
 			this.app.selectionManager.select( previous );
 		}
 
 	};
 
+	// select next element visible in tree view
 	this.down = function () {
 
-		if ( this.expanded && this.children.length > 0 ) {
-			this.app.selectionManager.select( this.children[ 0 ] );
-		} else {
-			var next = this.getNext();
-			if ( next !== undefined ) {
-				this.app.selectionManager.select( next );
-			}
+		var next = this.getNext();
+		if ( next !== undefined ) {
+			this.app.selectionManager.select( next );
 		}
 
 	};
 
+	// collapse if expanded, select parent if collapsed
 	this.left = function () {
 
 		if ( this.expanded ) {
@@ -186,6 +191,7 @@ daign.Selectable = function ( hideable ) {
 
 	};
 
+	// expand if collapsed
 	this.right = function () {
 
 		if ( !this.expanded ) {
