@@ -27,7 +27,11 @@ daign.Group.prototype = {
 
 	},
 
-	setUpControls: function ( controlLayer ) {}
+	setUpControls: function ( controlLayer ) {
+
+		controlLayer.setBox( null );
+
+	}
 
 };
 

@@ -108,6 +108,20 @@ daign.Path.prototype = {
 		this.children.forEach( function ( segment ) {
 			segment.setUpEndControl( controlLayer );
 		} );
+		controlLayer.setBox( this.getBox() );
+
+	},
+
+	getBox: function () {
+
+		var box = new daign.Box2();
+		this.children.forEach( function ( segment ) {
+			endPoint = segment.getEndPoint();
+			if ( endPoint !== undefined ) {
+				box.expandByPoint( endPoint );
+			}
+		} );
+		return box;
 
 	},
 

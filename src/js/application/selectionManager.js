@@ -31,6 +31,7 @@ daign.SelectionManager.prototype = {
 			} else {
 				this.controlLayers.forEach( function ( c ) {
 					c.clear();
+					c.setBox( null );
 				} );
 			}
 

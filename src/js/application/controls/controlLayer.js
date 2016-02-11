@@ -9,6 +9,10 @@ daign.ControlLayer = function ( viewport ) {
 	this.segmentLines = [];
 	this.segmentPoints = [];
 
+	this.box = document.createElementNS( daign.SVGNS, 'rect' );
+	this.box.setAttribute( 'class', 'controlLine' );
+	this.node.appendChild( this.box );
+
 	this.pathGroup = document.createElementNS( daign.SVGNS, 'g' );
 	this.segmentLinesGroup = document.createElementNS( daign.SVGNS, 'g' );
 	this.segmentPointsGroup = document.createElementNS( daign.SVGNS, 'g' );
@@ -52,6 +56,23 @@ daign.ControlLayer.prototype = {
 		this.segmentLines.forEach( function ( l ) {
 			l.update();
 		} );
+
+	},
+
+	setBox: function ( box ) {
+
+		if ( box !== null ) {
+			this.box.style.display = 'block';
+			var a = this.viewport.projectToViewCoordinates( box.min );
+			var b = this.viewport.projectToViewCoordinates( box.max );
+
+			this.box.setAttribute( 'x', a.x );
+			this.box.setAttribute( 'y', a.y );
+			this.box.setAttribute( 'width', b.x - a.x );
+			this.box.setAttribute( 'height', b.y - a.y );
+		} else {
+			this.box.style.display = 'none';
+		}
 
 	}
 

@@ -62,7 +62,11 @@ daign.Document.prototype = {
 
 	},
 
-	setUpControls: function ( controlLayer ) {},
+	setUpControls: function ( controlLayer ) {
+
+		controlLayer.setBox( null );
+
+	},
 
 	toString: function () {
 
