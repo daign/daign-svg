@@ -1,8 +1,8 @@
-daign.PathSegmentQuadratic = function ( points, parameters, previous, app ) {
+daign.PathSegmentQuadratic = function ( points, parameters, app ) {
 
 	this.type = 'Quadratic';
 
-	daign.PathSegment.call( this, points, parameters, previous, app );
+	daign.PathSegment.call( this, points, parameters, app );
 
 };
 
@@ -12,7 +12,7 @@ daign.PathSegmentQuadratic.prototype.constructor = daign.PathSegmentQuadratic;
 
 daign.PathSegmentQuadratic.prototype.render = function () {
 
-	return ' Q ' + this.points[ 0 ].x + ',' + this.points[ 0 ].y + ',' + this.points[ 1 ].x + ',' + this.points[ 1 ].y;
+	return ' Q ' + this.children[ 0 ].position.x + ',' + this.children[ 0 ].position.y + ',' + this.children[ 1 ].position.x + ',' + this.children[ 1 ].position.y;
 
 };
 

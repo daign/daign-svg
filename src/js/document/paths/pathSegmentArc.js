@@ -2,25 +2,25 @@ daign.PathSegmentArc = function ( points, parameters, previous, app ) {
 
 	this.type = 'Arc';
 
-	daign.PathSegment.call( this, points, parameters, previous, app );
+	daign.PathSegment.call( this, points, parameters, app );
 
-	var p0 = this.points[ 0 ];
-	var pp = this.previous.getEndPoint();
-	var px = new daign.Vector2();
-	this.points.unshift( px );
+	var p0 = this.children[ 0 ];
+	var pp = previous.getEndPoint();
+	var px = new daign.Point( app );
+	this.children.unshift( px );
 
 	var self = this;
 	var update = function () {
-		var diff = pp.clone().sub( p0 );
-		var pm = diff.clone().multiplyScalar( 0.5 ).add( p0 );
+		var diff = pp.position.clone().sub( p0 );
+		var pm = diff.clone().multiplyScalar( 0.5 ).add( p0.position );
 		var o = self.parameters[ 4 ]*2-1;
 		var l = Math.sqrt( Math.max( 0, Math.pow( self.parameters[ 0 ], 2 ) - Math.pow( diff.length()*0.5, 2 ) ) );
 		var n = diff.clone().perpendicular().setLength( o*l );
-		px.copy( pm.add( n ) );
+		px.position.copy( pm.add( n ) );
 	};
 	update();
-	this.remover1 = p0.addListener( update );
-	this.remover2 = pp.addListener( update );
+	this.remover1 = p0.position.addListener( update );
+	this.remover2 = pp.position.addListener( update );
 
 };
 
@@ -30,7 +30,7 @@ daign.PathSegmentArc.prototype.constructor = daign.PathSegmentArc;
 
 daign.PathSegmentArc.prototype.render = function () {
 
-	return ' A ' + this.parameters[ 0 ] + ',' + this.parameters[ 1 ] + ',' + this.parameters[ 2 ] + ',' + this.parameters[ 3 ] + ',' + this.parameters[ 4 ] + ',' + this.points[ 1 ].x + ',' + this.points[ 1 ].y;
+	return ' A ' + this.parameters[ 0 ] + ',' + this.parameters[ 1 ] + ',' + this.parameters[ 2 ] + ',' + this.parameters[ 3 ] + ',' + this.parameters[ 4 ] + ',' + this.children[ 1 ].position.x + ',' + this.children[ 1 ].position.y;
 
 };
 
@@ -38,42 +38,41 @@ daign.PathSegmentArc.prototype.setUpControls = function ( controlLayer ) {
 
 	this.parent.setUpControls( controlLayer );
 
-	var line1 = new daign.ControlLine( controlLayer.segmentLinesGroup, this.points[ 1 ], this.points[ 0 ], controlLayer.viewport );
+	var line1 = new daign.ControlLine( controlLayer.segmentLinesGroup, this.children[ 1 ], this.children[ 0 ], controlLayer.viewport );
 	controlLayer.segmentLines.push( line1 );
 
-	if ( this.previous !== undefined && this.previous.getEndPoint() !== undefined ) {
-		var line2 = new daign.ControlLine( controlLayer.segmentLinesGroup, this.points[ 0 ], this.previous.getEndPoint(), controlLayer.viewport );
-		controlLayer.segmentLines.push( line2 );
-	}
+	var line2 = new daign.ControlLine( controlLayer.segmentLinesGroup, this.children[ 0 ], this.getPreviousSegment().getEndPoint(), controlLayer.viewport );
+	controlLayer.segmentLines.push( line2 );
 
 	var self = this;
-	var p0 = this.points[ 1 ];
-	var pp = this.previous.getEndPoint();
-	var px = this.points[ 0 ];
+	var p0 = this.children[ 1 ];
+	var pp = this.getPreviousSegment().getEndPoint();
+	var px = this.children[ 0 ];
 	var pxSnapshot = undefined;
 	var settings = {
 		beginning: function () {
-			pxSnapshot = px.clone();
+			pxSnapshot = px.position.clone();
 		},
 		continuing: function () {
 			var pxMoved = pxSnapshot.clone().add( this.vectorT.sub( this.vector0 ).multiplyScalar( 0.25 ) );
-			var u = pp.clone().sub( p0 ).normalize();
-			var p0x = pxMoved.clone().sub( p0 );
-			var projected = p0.clone().add( u.clone().multiplyScalar( p0x.dot( u ) ) );
+			var u = pp.position.clone().sub( p0.position ).normalize();
+			var p0x = pxMoved.clone().sub( p0.position );
+			var projected = p0.position.clone().add( u.clone().multiplyScalar( p0x.dot( u ) ) );
 			var dis = pxMoved.clone().sub( projected );
 
-			var diff = pp.clone().sub( p0 );
-			var pm = diff.clone().multiplyScalar( 0.5 ).add( p0 );
-			px.copy( pm.add( dis ) );
+			var diff = pp.position.clone().sub( p0.position );
+			var pm = diff.clone().multiplyScalar( 0.5 ).add( p0.position );
+			px.position.copy( pm.add( dis ) );
 
-			var r = px.distanceTo( p0 );
+			var r = px.position.distanceTo( p0.position );
 			self.parameters[ 0 ] = r;
 			self.parameters[ 1 ] = r;
 
 			if ( dis.length() > 0 ) {
-				var det = ( pp.x - p0.x ) * ( px.y - p0.y ) - ( pp.y - p0.y ) * ( px.x - p0.x );
+				var det = ( pp.position.x - p0.position.x ) * ( px.position.y - p0.position.y ) - ( pp.position.y - p0.position.y ) * ( px.position.x - p0.position.x );
 				self.parameters[ 4 ] = ( det > 0 ) ? 0 : 1;
 			}
+			self.update();
 		},
 		ending: function () {},
 		clicked: function () {},

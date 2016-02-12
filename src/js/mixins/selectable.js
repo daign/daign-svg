@@ -58,6 +58,14 @@ daign.Selectable = function ( hideable ) {
 
 	};
 
+	this.update = function () {
+
+		if ( this.parent !== undefined ) {
+			this.parent.update();
+		}
+
+	};
+
 	this.getTreeViewNode = function ( h ) {
 
 		this.expandNode.style.marginLeft = ( 14 * h ) + 'px';

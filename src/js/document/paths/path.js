@@ -8,16 +8,12 @@ daign.Path = function ( app ) {
 
 	this.nodes = {};
 
-	this.append = function ( segment ) {
+	this.update = function () {
 
-		var self = this;
-		var update = function () {
-			self.update();
-		};
-		segment.setListeners( update );
-		segment.parent = this;
-		this.children.push( segment );
-		this.setExpand( this.expanded );
+		this.updateNode();
+		if ( this.parent !== undefined ) {
+			this.parent.update();
+		}
 
 	};
 
@@ -64,7 +60,7 @@ daign.Path.prototype = {
 
 	},
 
-	update: function () {
+	updateNode: function () {
 
 		var d = '';
 		for ( var i = 0; i < this.children.length; i++ ) {
@@ -84,8 +80,8 @@ daign.Path.prototype = {
 	snap: function () {
 
 		this.children.forEach( function( seg ) {
-			seg.points.forEach( function ( p ) {
-				p.snap();
+			seg.children.forEach( function ( p ) {
+				p.position.snap();
 			} );
 		} );
 
@@ -95,8 +91,8 @@ daign.Path.prototype = {
 
 		v.multiplyScalar( 0.25 );
 		this.children.forEach( function( seg ) {
-			seg.points.forEach( function ( p ) {
-				p.drag( v );
+			seg.children.forEach( function ( p ) {
+				p.position.drag( v );
 			} );
 		} );
 		this.update();
@@ -118,7 +114,7 @@ daign.Path.prototype = {
 		this.children.forEach( function ( segment ) {
 			endPoint = segment.getEndPoint();
 			if ( endPoint !== undefined ) {
-				box.expandByPoint( endPoint );
+				box.expandByPoint( endPoint.position );
 			}
 		} );
 		return box;
@@ -130,49 +126,49 @@ daign.Path.prototype = {
 		var dataRaw = string.split( ' ' );
 		var dataMode = undefined;
 		for ( var i = 0; i < dataRaw.length; i++ ) {
-				var previous = this.getLastSegment();
-				if ( dataRaw[ i ].length === 1 ) {
-					dataMode = dataRaw[ i ];
-					if ( dataMode === 'Z' ) {
-						this.append( new daign.PathSegmentClose( [], [], previous, this.app ) );
-					}
-				} else {
-					var vr = dataRaw[ i ].split( ',' );
-					switch ( dataMode ) {
-						case 'M':
-							var p0 = new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) );
-							this.append( new daign.PathSegmentMove( [ p0 ], [], previous, this.app ) );
-							break;
+			var previous = this.getLastSegment();
+			if ( dataRaw[ i ].length === 1 ) {
+				dataMode = dataRaw[ i ];
+				if ( dataMode === 'Z' ) {
+					this.append( new daign.PathSegmentClose( [], [], this.app ) );
+				}
+			} else {
+				var vr = dataRaw[ i ].split( ',' );
+				switch ( dataMode ) {
+					case 'M':
+						var p0 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) ) );
+						this.append( new daign.PathSegmentMove( [ p0 ], [], this.app ) );
+						break;
 
-						case 'L':
-							var p0 = new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) );
-							this.append( new daign.PathSegmentLine( [ p0 ], [], previous, this.app ) );
-							break;
+					case 'L':
+						var p0 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) ) );
+						this.append( new daign.PathSegmentLine( [ p0 ], [], this.app ) );
+						break;
 
-						case 'Q':
-							var p0 = new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) );
-							var p1 = new daign.Vector2( parseInt( vr[ 2 ] ), parseInt( vr[ 3 ] ) );
-							this.append( new daign.PathSegmentQuadratic( [ p0, p1 ], [], previous, this.app ) );
-							break;
+					case 'Q':
+						var p0 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) ) );
+						var p1 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 2 ] ), parseInt( vr[ 3 ] ) ) );
+						this.append( new daign.PathSegmentQuadratic( [ p0, p1 ], [], this.app ) );
+						break;
 
-						case 'C':
-							var p0 = new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) );
-							var p1 = new daign.Vector2( parseInt( vr[ 2 ] ), parseInt( vr[ 3 ] ) );
-							var p2 = new daign.Vector2( parseInt( vr[ 4 ] ), parseInt( vr[ 5 ] ) );
-							this.append( new daign.PathSegmentCubic( [ p0, p1, p2 ], [], previous, this.app ) );
-							break;
+					case 'C':
+						var p0 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ) ) );
+						var p1 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 2 ] ), parseInt( vr[ 3 ] ) ) );
+						var p2 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 4 ] ), parseInt( vr[ 5 ] ) ) );
+						this.append( new daign.PathSegmentCubic( [ p0, p1, p2 ], [], this.app ) );
+						break;
 
-						case 'A':
-							var p0 = new daign.Vector2( parseInt( vr[ 5 ] ), parseInt( vr[ 6 ] ) );
-							var parameters = [ parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ), parseInt( vr[ 2 ] ), parseInt( vr[ 3 ] ), parseInt( vr[ 4 ] ) ];
-							this.append( new daign.PathSegmentArc( [ p0 ], parameters, previous, this.app ) );
-							break;
+					case 'A':
+						var p0 = new daign.Point( this.app, new daign.Vector2( parseInt( vr[ 5 ] ), parseInt( vr[ 6 ] ) ) );
+						var parameters = [ parseInt( vr[ 0 ] ), parseInt( vr[ 1 ] ), parseInt( vr[ 2 ] ), parseInt( vr[ 3 ] ), parseInt( vr[ 4 ] ) ];
+						this.append( new daign.PathSegmentArc( [ p0 ], parameters, previous, this.app ) );
+						break;
 
-						case 'Z':
-							break;
-					}
+					case 'Z':
+						break;
 				}
 			}
+		}
 		this.update();
 
 	}

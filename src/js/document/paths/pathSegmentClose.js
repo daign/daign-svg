@@ -1,8 +1,8 @@
-daign.PathSegmentClose = function ( points, parameters, previous, app ) {
+daign.PathSegmentClose = function ( points, parameters, app ) {
 
 	this.type = 'Close';
 
-	daign.PathSegment.call( this, points, parameters, previous, app );
+	daign.PathSegment.call( this, points, parameters, app );
 
 };
 

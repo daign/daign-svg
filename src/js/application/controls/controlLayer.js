@@ -10,7 +10,7 @@ daign.ControlLayer = function ( viewport ) {
 	this.segmentPoints = [];
 
 	this.box = document.createElementNS( daign.SVGNS, 'rect' );
-	this.box.setAttribute( 'class', 'controlLine' );
+	this.box.setAttribute( 'class', 'controlBoundary' );
 	this.node.appendChild( this.box );
 
 	this.pathGroup = document.createElementNS( daign.SVGNS, 'g' );

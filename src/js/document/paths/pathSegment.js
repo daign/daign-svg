@@ -1,12 +1,14 @@
-daign.PathSegment = function ( points, parameters, previous, app ) {
+daign.PathSegment = function ( points, parameters, app ) {
 
 	this.app = app;
 
 	daign.Selectable.call( this, false );
 
-	this.points = points;
 	this.parameters = parameters;
-	this.previous = previous;
+	var self = this;
+	points.forEach( function ( p ) {
+		self.append( p );
+	} );
 
 };
 
@@ -20,18 +22,22 @@ daign.PathSegment.prototype = {
 
 	},
 
-	setListeners: function ( l ) {
+	getEndPoint: function () {
 
-		this.points.forEach( function ( p ) {
-			p.addListener( l );
-		} );
+		if ( this.children.length > 0 ) {
+			return this.children[ this.children.length-1 ];
+		} else {
+			return undefined;
+		}
 
 	},
 
-	getEndPoint: function () {
+	getPreviousSegment: function () {
 
-		if ( this.points.length > 0 ) {
-			return this.points[ this.points.length-1 ];
+		var siblings = this.parent.children;
+		var i = siblings.indexOf( this );
+		if ( i-1 >= 0 ) {
+			return siblings[ i-1 ];
 		} else {
 			return undefined;
 		}
@@ -46,10 +52,11 @@ daign.PathSegment.prototype = {
 			var self = this;
 			var settings = {
 				beginning: function () {
-					snapshot = lastPoint.clone();
+					snapshot = lastPoint.position.clone();
 				},
 				continuing: function () {
-					lastPoint.copy( snapshot.clone().add( this.vectorT.sub( this.vector0 ).multiplyScalar( 0.25 ) ) );
+					lastPoint.position.copy( snapshot.clone().add( this.vectorT.sub( this.vector0 ).multiplyScalar( 0.25 ) ) );
+					self.update();
 				},
 				ending: function () {},
 				clicked: function () {
@@ -70,16 +77,17 @@ daign.PathSegment.prototype = {
 
 		var lastPoint = this.getEndPoint();
 		var self = this;
-		for ( var i = this.points.length-2; i >= 0; i-- ) {
+		for ( var i = this.children.length-2; i >= 0; i-- ) {
 			( function () {
-				var pointI = self.points[ i ];
+				var pointI = self.children[ i ];
 				var snapshot = undefined;
 				var settings = {
 					beginning: function () {
-						snapshot = pointI.clone();
+						snapshot = pointI.position.clone();
 					},
 					continuing: function () {
-						pointI.copy( snapshot.clone().add( this.vectorT.sub( this.vector0 ).multiplyScalar( 0.25 ) ) );
+						pointI.position.copy( snapshot.clone().add( this.vectorT.sub( this.vector0 ).multiplyScalar( 0.25 ) ) );
+						self.update();
 					},
 					ending: function () {},
 					clicked: function () {},
@@ -90,13 +98,15 @@ daign.PathSegment.prototype = {
 				controlLayer.segmentPoints.push( cPoint );
 			} )();
 
-			var nextPoint = this.points[ i ];
+			var nextPoint = this.children[ i ];
 			var line = new daign.ControlLine( controlLayer.segmentLinesGroup, lastPoint, nextPoint, controlLayer.viewport );
 			controlLayer.segmentLines.push( line );
 			lastPoint = nextPoint;
 		}
-		if ( this.previous !== undefined && this.previous.getEndPoint() !== undefined ) {
-			var line = new daign.ControlLine( controlLayer.segmentLinesGroup, lastPoint, this.previous.getEndPoint(), controlLayer.viewport );
+
+		var previous = this.getPreviousSegment();
+		if ( previous !== undefined && previous.getEndPoint() !== undefined ) {
+			var line = new daign.ControlLine( controlLayer.segmentLinesGroup, lastPoint, previous.getEndPoint(), controlLayer.viewport );
 			controlLayer.segmentLines.push( line );
 		}
 

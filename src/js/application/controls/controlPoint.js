@@ -14,7 +14,7 @@ daign.ControlPoint = function ( parent, point, settings, viewport ) {
 		self.update();
 	};
 	update();
-	this.remover = point.addListener( update );
+	this.remover = point.position.addListener( update );
 
 	settings.domNode = this.node;
 
@@ -35,7 +35,7 @@ daign.ControlPoint.prototype = {
 
 	update: function () {
 
-		var p = this.viewport.projectToViewCoordinates( this.point );
+		var p = this.viewport.projectToViewCoordinates( this.point.position );
 		this.node.setAttribute( 'cx', p.x );
 		this.node.setAttribute( 'cy', p.y );
 

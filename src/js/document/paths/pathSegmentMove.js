@@ -1,8 +1,8 @@
-daign.PathSegmentMove = function ( points, parameters, previous, app ) {
+daign.PathSegmentMove = function ( points, parameters, app ) {
 
 	this.type = 'Move';
 
-	daign.PathSegment.call( this, points, parameters, previous, app );
+	daign.PathSegment.call( this, points, parameters, app );
 
 };
 
@@ -12,7 +12,7 @@ daign.PathSegmentMove.prototype.constructor = daign.PathSegmentMove;
 
 daign.PathSegmentMove.prototype.render = function () {
 
-	return ' M ' + this.points[ 0 ].x + ',' + this.points[ 0 ].y;
+	return ' M ' + this.children[ 0 ].position.x + ',' + this.children[ 0 ].position.y;
 
 };
 

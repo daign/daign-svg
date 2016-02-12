@@ -74,4 +74,10 @@ body {
 	stroke: #f00;
 	stroke-width: 2.5;
 }
+.controlBoundary {
+	fill: none;
+	stroke: #f00;
+	stroke-width: 2.5;
+	stroke-dasharray: 5,5;
+}
 

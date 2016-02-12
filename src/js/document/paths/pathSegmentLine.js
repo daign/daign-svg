@@ -1,8 +1,8 @@
-daign.PathSegmentLine = function ( points, parameters, previous, app ) {
+daign.PathSegmentLine = function ( points, parameters, app ) {
 
 	this.type = 'Line';
 
-	daign.PathSegment.call( this, points, parameters, previous, app );
+	daign.PathSegment.call( this, points, parameters, app );
 
 };
 
@@ -12,7 +12,7 @@ daign.PathSegmentLine.prototype.constructor = daign.PathSegmentLine;
 
 daign.PathSegmentLine.prototype.render = function () {
 
-	return ' L ' + this.points[ 0 ].x + ',' + this.points[ 0 ].y;
+	return ' L ' + this.children[ 0 ].position.x + ',' + this.children[ 0 ].position.y;
 
 };
 

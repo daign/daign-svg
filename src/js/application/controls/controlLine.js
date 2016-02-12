@@ -13,8 +13,8 @@ daign.ControlLine = function ( parent, p1, p2, viewport ) {
 	var update = function () {
 		self.update();
 	};
-	this.remover1 = p1.addListener( update );
-	this.remover2 = p2.addListener( update );
+	this.remover1 = p1.position.addListener( update );
+	this.remover2 = p2.position.addListener( update );
 
 	this.update();
 
@@ -36,8 +36,8 @@ daign.ControlLine.prototype = {
 
 	update: function () {
 
-		var p1 = this.viewport.projectToViewCoordinates( this.p1 );
-		var p2 = this.viewport.projectToViewCoordinates( this.p2 );
+		var p1 = this.viewport.projectToViewCoordinates( this.p1.position );
+		var p2 = this.viewport.projectToViewCoordinates( this.p2.position );
 		this.node.setAttribute( 'x1', p1.x );
 		this.node.setAttribute( 'y1', p1.y );
 		this.node.setAttribute( 'x2', p2.x );
