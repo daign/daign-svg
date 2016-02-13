@@ -19,63 +19,66 @@ daign.Handle = function ( settings ) {
 		var dragged = false;
 
 		self.vector0.setFromEvent( event );
-		self.beginning();
 
-		var cancelSelect = function ( event ) {
+		if ( self.beginning( event ) ) {
 
-			event.preventDefault();
-			event.stopPropagation();
+			var cancelSelect = function ( event ) {
 
-		};
+				event.preventDefault();
+				event.stopPropagation();
 
-		var continueDrag = function ( event ) {
+			};
 
-			event.preventDefault();
-			event.stopPropagation();
+			var continueDrag = function ( event ) {
 
-			dragged = true;
+				event.preventDefault();
+				event.stopPropagation();
 
-			self.vectorT.setFromEvent( event );
-			self.continuing();
+				dragged = true;
 
-		};
+				self.vectorT.setFromEvent( event );
+				self.continuing();
 
-		var throttledContinue = daign.SCHEDULE.deferringThrottle( continueDrag, this, 40 );
+			};
 
-		var endDrag = function ( event ) {
+			var throttledContinue = daign.SCHEDULE.deferringThrottle( continueDrag, this, 40 );
 
-			event.preventDefault();
-			event.stopPropagation();
+			var endDrag = function ( event ) {
 
-			self.vectorT.setFromEvent( event );
+				event.preventDefault();
+				event.stopPropagation();
 
-			if ( dragged ) {
-				self.ending();
-			} else {
-				self.clicked();
-			}
+				self.vectorT.setFromEvent( event );
 
-			document.removeEventListener( 'selectstart', cancelSelect, false );
+				if ( dragged ) {
+					self.ending();
+				} else {
+					self.clicked();
+				}
 
-			document.removeEventListener( 'mousemove',   throttledContinue, false );
-			document.removeEventListener( 'touchmove',   throttledContinue, false );
+				document.removeEventListener( 'selectstart', cancelSelect, false );
 
-			document.removeEventListener( 'mouseup',     endDrag, false );
-			document.removeEventListener( 'touchend',    endDrag, false );
-			document.removeEventListener( 'touchcancel', endDrag, false );
-			document.removeEventListener( 'touchleave',  endDrag, false );
+				document.removeEventListener( 'mousemove',   throttledContinue, false );
+				document.removeEventListener( 'touchmove',   throttledContinue, false );
 
-		};
+				document.removeEventListener( 'mouseup',     endDrag, false );
+				document.removeEventListener( 'touchend',    endDrag, false );
+				document.removeEventListener( 'touchcancel', endDrag, false );
+				document.removeEventListener( 'touchleave',  endDrag, false );
 
-		document.addEventListener( 'selectstart', cancelSelect, false );
+			};
 
-		document.addEventListener( 'mousemove',   throttledContinue, false );
-		document.addEventListener( 'touchmove',   throttledContinue, false );
+			document.addEventListener( 'selectstart', cancelSelect, false );
 
-		document.addEventListener( 'mouseup',     endDrag, false );
-		document.addEventListener( 'touchend',    endDrag, false );
-		document.addEventListener( 'touchcancel', endDrag, false );
-		document.addEventListener( 'touchleave',  endDrag, false );
+			document.addEventListener( 'mousemove',   throttledContinue, false );
+			document.addEventListener( 'touchmove',   throttledContinue, false );
+
+			document.addEventListener( 'mouseup',     endDrag, false );
+			document.addEventListener( 'touchend',    endDrag, false );
+			document.addEventListener( 'touchcancel', endDrag, false );
+			document.addEventListener( 'touchleave',  endDrag, false );
+
+		}
 
 	};
 

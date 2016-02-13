@@ -82,6 +82,8 @@ daign.Selectable = function ( hideable ) {
 				c.clear();
 				self.setUpControls( c );
 			} );
+		} else {
+			this.controlElements = [];
 		}
 
 	};
@@ -205,6 +207,26 @@ daign.Selectable = function ( hideable ) {
 		if ( !this.expanded ) {
 			this.setExpand( true );
 		}
+
+	};
+
+	this.getTopmostGroup = function () {
+
+		var self = this;
+		while ( self.parent.type === 'Group' ) {
+			self = self.parent;
+		}
+		return self;
+
+	};
+
+	this.getBox = function () {
+
+		var box = new daign.Box2();
+		this.children.forEach( function ( child ) {
+			box.expandByBox( child.getBox() );
+		} );
+		return box;
 
 	};
 

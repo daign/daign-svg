@@ -19,7 +19,7 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 	var docNode = app.document.getNode( this.viewName );
 	this.transformNode.appendChild( docNode );
 
-	this.controls = new daign.ControlLayer( this );
+	this.controls = new daign.ControlLayer( app, this );
 	app.selectionManager.addControlLayer( this.controls );
 
 	this.viewCenter = new daign.Vector2( 50, 50 );
@@ -37,6 +37,7 @@ daign.Viewport = function ( app, viewName, viewsNode ) {
 		domNode: self.contextNode,
 		beginning: function () {
 			self.snap();
+			return true;
 		},
 		continuing: function () {
 			self.drag( this.vectorT.clone().sub( this.vector0 ) );

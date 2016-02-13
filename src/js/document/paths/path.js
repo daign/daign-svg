@@ -7,10 +7,12 @@ daign.Path = function ( app ) {
 	daign.Transformable.call( this );
 
 	this.nodes = {};
+	this.controlElements = [];
 
 	this.update = function () {
 
 		this.updateNode();
+		this.updateControls();
 		if ( this.parent !== undefined ) {
 			this.parent.update();
 		}
@@ -31,17 +33,25 @@ daign.Path.prototype = {
 		var self = this;
 		var pathHandle = new daign.Handle( {
 			domNode: node,
+			target: undefined,
 			vector0: new daign.Vector2(),
 			vectorT: new daign.Vector2(),
-			beginning: function () {
-				self.snap();
+			beginning: function ( event ) {
+				if ( !event.ctrlKey ) {
+					this.target = self.getTopmostGroup();
+				} else {
+					this.target = self;
+				}
+				self.app.selectionManager.select( this.target );
+				this.target.snap();
+				return true;
 			},
 			continuing: function () {
-				self.drag( this.vectorT.sub( this.vector0 ) );
+				this.target.drag( this.vectorT.sub( this.vector0 ) );
 			},
 			ending: function () {},
 			clicked: function () {
-				self.app.selectionManager.select( self );
+				self.app.selectionManager.select( this.target );
 			}
 		} );
 
@@ -77,6 +87,14 @@ daign.Path.prototype = {
 
 	},
 
+	updateControls: function () {
+
+		this.controlElements.forEach( function ( element ) {
+			element.update();
+		} );
+
+	},
+
 	snap: function () {
 
 		this.children.forEach( function( seg ) {
@@ -101,23 +119,23 @@ daign.Path.prototype = {
 
 	setUpControls: function ( controlLayer ) {
 
-		this.children.forEach( function ( segment ) {
+		/*this.children.forEach( function ( segment ) {
 			segment.setUpEndControl( controlLayer );
-		} );
-		controlLayer.setBox( this.getBox() );
-
-	},
-
-	getBox: function () {
-
-		var box = new daign.Box2();
-		this.children.forEach( function ( segment ) {
-			endPoint = segment.getEndPoint();
-			if ( endPoint !== undefined ) {
-				box.expandByPoint( endPoint.position );
-			}
-		} );
-		return box;
+		} );*/
+		//controlLayer.setBox( this.getBox() );
+		//this.controlElements = [];
+		var self = this;
+		var element = controlLayer.addElement( 'rect', function ( node, viewport ) {
+			var box = self.getBox();
+			box.expandToMinimumSize( 4 )
+			var a = viewport.projectToViewCoordinates( box.min );
+			var b = viewport.projectToViewCoordinates( box.max );
+			node.setAttribute( 'x', a.x );
+			node.setAttribute( 'y', a.y );
+			node.setAttribute( 'width', b.x - a.x );
+			node.setAttribute( 'height', b.y - a.y );
+		}, 'controlBoundary' );
+		this.controlElements.push( element );
 
 	},
 

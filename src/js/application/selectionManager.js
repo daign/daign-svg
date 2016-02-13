@@ -1,4 +1,6 @@
-daign.SelectionManager = function () {
+daign.SelectionManager = function ( app ) {
+
+	this.app = app;
 
 	this.selected = null;
 	this.last_selected = undefined;
@@ -31,7 +33,7 @@ daign.SelectionManager.prototype = {
 			} else {
 				this.controlLayers.forEach( function ( c ) {
 					c.clear();
-					c.setBox( null );
+					//c.setBox( null );
 				} );
 			}
 

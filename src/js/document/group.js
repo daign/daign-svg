@@ -7,6 +7,7 @@ daign.Group = function ( app ) {
 	daign.Transformable.call( this );
 
 	this.nodes = {};
+	this.controlElements = [];
 
 };
 
@@ -29,7 +30,25 @@ daign.Group.prototype = {
 
 	setUpControls: function ( controlLayer ) {
 
-		controlLayer.setBox( null );
+		var self = this;
+		var element = controlLayer.addElement( 'rect', function ( node, viewport ) {
+			var box = self.getBox();
+			var a = viewport.projectToViewCoordinates( box.min );
+			var b = viewport.projectToViewCoordinates( box.max );
+			node.setAttribute( 'x', a.x );
+			node.setAttribute( 'y', a.y );
+			node.setAttribute( 'width', b.x - a.x );
+			node.setAttribute( 'height', b.y - a.y );
+		}, 'controlBoundary' );
+		this.controlElements.push( element );
+
+	},
+
+	snap: function () {
+
+	},
+
+	drag: function () {
 
 	}
 

@@ -1,24 +1,12 @@
-daign.ControlLayer = function ( viewport ) {
+daign.ControlLayer = function ( app, viewport ) {
 
+	this.app = app;
 	this.viewport = viewport;
 
 	this.node = document.createElementNS( daign.SVGNS, 'g' );
 	viewport.contextNode.appendChild( this.node );
 
-	this.pathPoints = [];
-	this.segmentLines = [];
-	this.segmentPoints = [];
-
-	this.box = document.createElementNS( daign.SVGNS, 'rect' );
-	this.box.setAttribute( 'class', 'controlBoundary' );
-	this.node.appendChild( this.box );
-
-	this.pathGroup = document.createElementNS( daign.SVGNS, 'g' );
-	this.segmentLinesGroup = document.createElementNS( daign.SVGNS, 'g' );
-	this.segmentPointsGroup = document.createElementNS( daign.SVGNS, 'g' );
-	this.node.appendChild( this.segmentLinesGroup );
-	this.node.appendChild( this.pathGroup );
-	this.node.appendChild( this.segmentPointsGroup );
+	this.controlElements = [];
 
 };
 
@@ -26,53 +14,39 @@ daign.ControlLayer.prototype = {
 
 	constructor: daign.ControlLayer,
 
-	clear: function () {
+	addElement: function ( nodeType, callback, className ) {
 
-		this.pathPoints.forEach( function ( p ) {
-			p.destroy();
-		} );
-		this.pathPoints = [];
+		var element = new daign.ControlElement( this.app, nodeType, callback, this.viewport, className );
+		this.node.appendChild( element.node );
+		this.controlElements.push( element );
 
-		this.segmentPoints.forEach( function ( p ) {
-			p.destroy();
+		var self = this;
+		element.addDestroyListener( function () {
+			try {
+				self.node.removeChild( element.node );
+			} catch ( error ) {}
+			var i = self.controlElements.indexOf( element );
+			self.controlElements.splice( i, i );
 		} );
-		this.segmentPoints = [];
 
-		this.segmentLines.forEach( function ( l ) {
-			l.destroy();
-		} );
-		this.segmentLines = [];
+		return element;
 
 	},
 
 	update: function () {
 
-		this.pathPoints.forEach( function ( p ) {
-			p.update();
-		} );
-		this.segmentPoints.forEach( function ( p ) {
-			p.update();
-		} );
-		this.segmentLines.forEach( function ( l ) {
-			l.update();
+		this.controlElements.forEach( function ( element ) {
+			element.update();
 		} );
 
 	},
 
-	setBox: function ( box ) {
+	clear: function () {
 
-		if ( box !== null ) {
-			this.box.style.display = 'block';
-			var a = this.viewport.projectToViewCoordinates( box.min );
-			var b = this.viewport.projectToViewCoordinates( box.max );
-
-			this.box.setAttribute( 'x', a.x );
-			this.box.setAttribute( 'y', a.y );
-			this.box.setAttribute( 'width', b.x - a.x );
-			this.box.setAttribute( 'height', b.y - a.y );
-		} else {
-			this.box.style.display = 'none';
-		}
+		var self = this;
+		this.controlElements.forEach( function ( element ) {
+			element.destroy();
+		} );
 
 	}
 

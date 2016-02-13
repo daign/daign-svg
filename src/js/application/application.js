@@ -2,8 +2,9 @@ daign.Application = function ( node ) {
 
 	this.node = node;
 
-	this.keyEventManager = new daign.KeyEventManager( this );
-	this.selectionManager = new daign.SelectionManager();
+	this.keyEventManager  = new daign.KeyEventManager( this );
+	this.selectionManager = new daign.SelectionManager( this );
+	this.domPool          = new daign.DomPool( this );
 
 	this.document = new daign.Document( this );
 
