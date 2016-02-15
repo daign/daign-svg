@@ -64,7 +64,7 @@ daign.Document.prototype = {
 
 	setUpControls: function ( controlLayer ) {
 
-		controlLayer.setBox( null );
+		//controlLayer.setBox( null );
 
 	},
 

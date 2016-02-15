@@ -22,11 +22,9 @@ daign.ControlLayer.prototype = {
 
 		var self = this;
 		element.addDestroyListener( function () {
-			try {
-				self.node.removeChild( element.node );
-			} catch ( error ) {}
+			self.node.removeChild( element.node );
 			var i = self.controlElements.indexOf( element );
-			self.controlElements.splice( i, i );
+			self.controlElements = self.controlElements.splice( i, i );
 		} );
 
 		return element;

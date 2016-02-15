@@ -3,16 +3,18 @@ daign.Selectable = function ( hideable ) {
 	this.parent = undefined;
 	this.children = [];
 
-	this.expanded = false;
 	this.hidden   = false;
 	this.hideable = hideable;
+
+	this.expanded = false;
+	this.autoExpanded = false;
 
 	this.treeViewNode = document.createElement( 'div' );
 	this.treeViewNode.setAttribute( 'class', 'treeViewNode' );
 
 	this.visibilityNode = document.createElement( 'div' );
 	this.visibilityNode.setAttribute( 'class', 'visibility' );
-	this.visibilityNode.innerHTML = ( hideable ? '&#9673;' : '&nbsp;' );
+	this.visibilityNode.innerHTML = ( this.hideable ? '&#9673;' : '&nbsp;' );
 	this.treeViewNode.appendChild( this.visibilityNode );
 
 	this.expandNode = document.createElement( 'div' );
@@ -54,7 +56,8 @@ daign.Selectable = function ( hideable ) {
 
 		this.children.push( c );
 		c.parent = this;
-		this.setExpand( this.expanded );
+		this._setExpandNode();
+		this._buildTree();
 
 	};
 
@@ -82,8 +85,6 @@ daign.Selectable = function ( hideable ) {
 				c.clear();
 				self.setUpControls( c );
 			} );
-		} else {
-			this.controlElements = [];
 		}
 
 	};
@@ -96,12 +97,45 @@ daign.Selectable = function ( hideable ) {
 
 	this.setExpand = function ( b ) {
 
-		if ( this.children.length > 0 ) {
-			this.expanded = b;
-			this.expandNode.innerHTML = ( this.expanded ? '&#9662;' : '&#9656;' );
-			if ( this.app.content !== undefined ) {
-				this.app.content.sidebar.documentTree.build();
+		var newStatus = b && this.children.length > 0;
+		if ( this.expanded !== newStatus ) {
+			this.expanded = newStatus;
+			if ( !this.expanded && this.autoExpanded ) {
+				this.autoExpanded = false;
 			}
+			this._setExpandNode();
+			this._buildTree();
+		}
+
+	};
+
+	this.setAutoExpand = function ( b ) {
+
+		if ( b ) { // if not already expanded, expand and notate an automatic expand
+			if ( !this.expanded ) {
+				this.autoExpanded = true;
+				this.setExpand( true );
+			}
+		} else { // collapse, but only if it was an automatic expand
+			if ( autoExpanded ) {
+				this.setExpand( false );
+			}
+		}
+
+	},
+
+	this._buildTree = function () {
+
+		if ( this.app.content !== undefined ) {
+			this.app.content.sidebar.documentTree.build();
+		}
+
+	};
+
+	this._setExpandNode = function () {
+
+		if ( this.children.length > 0 ) {
+			this.expandNode.innerHTML = ( this.expanded ? '&#9662;' : '&#9656;' );
 		} else {
 			this.expandNode.innerHTML = '&nbsp;';
 		}
@@ -206,6 +240,8 @@ daign.Selectable = function ( hideable ) {
 
 		if ( !this.expanded ) {
 			this.setExpand( true );
+		} else if ( this.autoExpanded ) {
+			this.autoExpanded = false;
 		}
 
 	};

@@ -119,11 +119,6 @@ daign.Path.prototype = {
 
 	setUpControls: function ( controlLayer ) {
 
-		/*this.children.forEach( function ( segment ) {
-			segment.setUpEndControl( controlLayer );
-		} );*/
-		//controlLayer.setBox( this.getBox() );
-		//this.controlElements = [];
 		var self = this;
 		var element = controlLayer.addElement( 'rect', function ( node, viewport ) {
 			var box = self.getBox();
@@ -136,6 +131,14 @@ daign.Path.prototype = {
 			node.setAttribute( 'height', b.y - a.y );
 		}, 'controlBoundary' );
 		this.controlElements.push( element );
+		element.addDestroyListener( function () {
+			var i = self.controlElements.indexOf( element );
+			self.controlElements = self.controlElements.slice( i, i );
+		} );
+
+		/*this.children.forEach( function ( segment ) {
+			segment.setUpEndControl( controlLayer );
+		} );*/
 
 	},
 
