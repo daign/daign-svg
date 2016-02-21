@@ -86,6 +86,7 @@ daign.Selectable = function ( hideable ) {
 				self.setUpControls( c );
 			} );
 		}
+		this.bubbleAutoExpandUp( b );
 
 	};
 
@@ -117,9 +118,18 @@ daign.Selectable = function ( hideable ) {
 				this.setExpand( true );
 			}
 		} else { // collapse, but only if it was an automatic expand
-			if ( autoExpanded ) {
+			if ( this.autoExpanded ) {
 				this.setExpand( false );
 			}
+		}
+
+	},
+
+	this.bubbleAutoExpandUp = function ( b ) {
+
+		this.setAutoExpand( b );
+		if ( this.parent !== undefined ) {
+			this.parent.bubbleAutoExpandUp( b );
 		}
 
 	},
@@ -241,7 +251,11 @@ daign.Selectable = function ( hideable ) {
 		if ( !this.expanded ) {
 			this.setExpand( true );
 		} else if ( this.autoExpanded ) {
-			this.autoExpanded = false;
+			var self = this;
+			while ( self !== undefined ) {
+				self.autoExpanded = false;
+				self = self.parent;
+			}
 		}
 
 	};
