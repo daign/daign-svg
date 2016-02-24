@@ -1,7 +1,7 @@
-daign.ControlElement = function ( app, nodeType, callback, viewport, className ) {
+daign.ControlElement = function ( app, nodeName, callback, viewport, className ) {
 
 	this.app = app;
-	this.node = app.domPool.get( nodeType );
+	this.node = this.app.domPool.get( nodeName );
 	this.node.setAttribute( 'class', className );
 	this.callback = callback;
 	this.viewport = viewport;
@@ -32,6 +32,9 @@ daign.ControlElement.prototype = {
 		this.destroyListeners.forEach( function ( callback ) {
 			callback();
 		} );
+
+		this.app.domPool.giveBack( this.node );
+		this.node = undefined;
 
 	}
 
