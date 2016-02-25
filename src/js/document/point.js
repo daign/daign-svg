@@ -10,7 +10,8 @@ daign.Point = function ( app, position ) {
 	this.getBox = function () {
 
 		var box = new daign.Box2();
-		box.expandByPoint( this.position );
+		var pos = this.position.clone().transform( this.parent.parent.transformMatrix );
+		box.expandByPoint( pos );
 		return box;
 
 	};

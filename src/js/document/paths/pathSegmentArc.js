@@ -7,6 +7,7 @@ daign.PathSegmentArc = function ( points, parameters, previous, app ) {
 	var p0 = this.children[ 0 ];
 	var pp = previous.getEndPoint();
 	var px = new daign.Point( app );
+	px.parent = this;
 	this.children.unshift( px );
 
 	var self = this;

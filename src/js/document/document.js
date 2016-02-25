@@ -35,6 +35,9 @@ daign.Document = function ( app ) {
 
 	var path4 = new daign.Path( app );
 	path4.parse( 'M 80,70 L 90,90 70,90 Z' );
+	path4.scale.set( 1.3, 0.6 );
+	path4.translate.set( -20, -40 );
+	path4.updateTransformMatrix();
 	group2.append( path4 );
 
 };
