@@ -1,23 +1,35 @@
 daign.Transformable = function () {
 
-	this.translate = new daign.Vector2( 0, 0 );
-	this.scale     = new daign.Vector2( 1, 1 );
+	this.transformations = [];
 
 	this.transformMatrix     = new daign.Matrix3();
 	this.backtransformMatrix = new daign.Matrix3();
+	this.transformAttribute  = '';
 
-	this.updateTransformMatrix = function () {
+	this.addTransformation = function ( transformation ) {
 
-		this.transformMatrix.setIdentity();
-		this.transformMatrix.applyTranslation( this.translate.x, this.translate.y );
-		this.transformMatrix.applyScaling( this.scale.x, this.scale.y );
-
-		this.backtransformMatrix.setIdentity();
-		this.backtransformMatrix.applyScaling( 1/this.scale.x, 1/this.scale.y );
-		this.backtransformMatrix.applyTranslation( -this.translate.x, -this.translate.y );
+		this.transformations.push( transformation );
+		transformation.addObserver( this.updateTransformation )
+		this.updateTransformation();
 
 	};
-	this.updateTransformMatrix();
+
+	this.updateTransformation = function () {
+
+		this.transformMatrix.setIdentity();
+		this.backtransformMatrix.setIdentity();
+		this.transformAttribute = '';
+
+		self = this;
+		this.transformations.forEach( function ( t ) {
+			self.transformMatrix.multiply( t.matrix );
+			self.backtransformMatrix.transform( t.backmatrix ),
+			self.transformAttribute += ' ' + t.attribute
+		} );
+
+	};
+
+	this.updateTransformation();
 
 };
 
