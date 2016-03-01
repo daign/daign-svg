@@ -64,6 +64,27 @@ daign.Matrix3.prototype = {
 
 	},
 
+	setRotation: function ( a ) {
+
+		var sin = Math.sin( a );
+		var cos = Math.cos( a );
+
+		this.set(
+			cos, -sin, 0,
+			sin,  cos, 0,
+			  0,    0, 1
+		);
+		return this;
+
+	},
+
+	applyRotation: function ( a ) {
+
+		this.transform( new daign.Matrix3().setRotation( a ) );
+		return this;
+
+	},
+
 	_matrixMultiplication: function ( a, b ) {
 
 		this.set(

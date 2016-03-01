@@ -85,7 +85,7 @@ daign.Path.prototype = {
 			node.setAttribute( 'stroke-width', 0.3 );
 
 			node.setAttribute( 'transform', this.transformAttribute );
-			//node.setAttribute( 'transform', 'scale( 1.3, 0.6 ) translate( -20, -40 )' );
+			//node.setAttribute( 'transform', 'rotate( -25, 80, 80 ) scale( 1.3, 0.6 ) translate( -20, -40 )' );
 		}
 
 	},

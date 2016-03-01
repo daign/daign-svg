@@ -3,6 +3,7 @@ daign.Scaling = function ( x, y ) {
 	daign.Observable.call( this );
 
 	this.scale = new daign.Vector2( x || 0, y || 0 );
+
 	this.matrix = new daign.Matrix3();
 	this.backmatrix = new daign.Matrix3();
 	this.attribute = '';

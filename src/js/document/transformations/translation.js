@@ -3,6 +3,7 @@ daign.Translation = function ( x, y ) {
 	daign.Observable.call( this );
 
 	this.translation = new daign.Vector2( x || 0, y || 0 );
+
 	this.matrix = new daign.Matrix3();
 	this.backmatrix = new daign.Matrix3();
 	this.attribute = '';
