@@ -31,5 +31,17 @@ daign.Transformable = function () {
 
 	this.updateTransformation();
 
+	this.combineTransformations = function () {
+
+		this.transformations.forEach( function ( transformation ) {
+			transformation.clearObservers();
+		} );
+		this.transformations = [];
+
+		var a = this.transformMatrix.elements;
+		this.addTransformation( new daign.MatrixTransform( a[0], a[3], a[1], a[4], a[2], a[5] ) );
+
+	};
+
 };
 

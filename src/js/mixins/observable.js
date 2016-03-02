@@ -8,6 +8,12 @@ daign.Observable = function () {
 
 	};
 
+	this.clearObservers = function () {
+
+		this.callbacks = [];
+
+	};
+
 	this.notifyObservers = function () {
 
 		this.callbacks.forEach( function ( callback ) {
