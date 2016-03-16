@@ -10,7 +10,7 @@ daign.PathSegmentClose.prototype = Object.create( daign.PathSegment.prototype );
 
 daign.PathSegmentClose.prototype.constructor = daign.PathSegmentClose;
 
-daign.PathSegmentClose.prototype.render = function () {
+daign.PathSegmentClose.prototype.render = function ( transformMatrix ) {
 
 	return ' Z';
 

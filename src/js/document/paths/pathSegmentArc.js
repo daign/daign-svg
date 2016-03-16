@@ -29,9 +29,10 @@ daign.PathSegmentArc.prototype = Object.create( daign.PathSegment.prototype );
 
 daign.PathSegmentArc.prototype.constructor = daign.PathSegmentArc;
 
-daign.PathSegmentArc.prototype.render = function () {
+daign.PathSegmentArc.prototype.render = function ( transformMatrix ) {
 
-	return ' A ' + this.parameters[ 0 ] + ',' + this.parameters[ 1 ] + ',' + this.parameters[ 2 ] + ',' + this.parameters[ 3 ] + ',' + this.parameters[ 4 ] + ',' + this.children[ 1 ].position.x + ',' + this.children[ 1 ].position.y;
+	var p1 = this.children[ 0 ].position.clone().transform( transformMatrix );
+	return ' A ' + this.parameters[ 0 ] + ',' + this.parameters[ 1 ] + ',' + this.parameters[ 2 ] + ',' + this.parameters[ 3 ] + ',' + this.parameters[ 4 ] + ',' + p1.x + ',' + p1.y;
 
 };
 

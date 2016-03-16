@@ -10,9 +10,10 @@ daign.PathSegmentMove.prototype = Object.create( daign.PathSegment.prototype );
 
 daign.PathSegmentMove.prototype.constructor = daign.PathSegmentMove;
 
-daign.PathSegmentMove.prototype.render = function () {
+daign.PathSegmentMove.prototype.render = function ( transformMatrix ) {
 
-	return ' M ' + this.children[ 0 ].position.x + ',' + this.children[ 0 ].position.y;
+	var p1 = this.children[ 0 ].position.clone().transform( transformMatrix );
+	return ' M ' + p1.x + ',' + p1.y;
 
 };
 

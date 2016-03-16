@@ -16,7 +16,7 @@ daign.PathSegment.prototype = {
 
 	constructor: daign.PathSegment,
 
-	render: function () {
+	render: function ( transformMatrix ) {
 
 		return '';
 

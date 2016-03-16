@@ -74,7 +74,7 @@ daign.Path.prototype = {
 
 		var d = '';
 		for ( var i = 0; i < this.children.length; i++ ) {
-			d += this.children[ i ].render();
+			d += this.children[ i ].render( this.transformMatrix );
 		}
 
 		for ( var viewName in this.nodes ) {

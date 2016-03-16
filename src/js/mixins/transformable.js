@@ -23,8 +23,10 @@ daign.Transformable = function () {
 		self = this;
 		this.transformations.forEach( function ( t ) {
 			self.transformMatrix.multiply( t.matrix );
-			self.backtransformMatrix.transform( t.backmatrix ),
-			self.transformAttribute += ' ' + t.attribute
+			self.backtransformMatrix.transform( t.backmatrix );
+			if ( t.asAttribute ) {
+				self.transformAttribute += ' ' + t.attribute;
+			}
 		} );
 
 	};
@@ -39,7 +41,7 @@ daign.Transformable = function () {
 		this.transformations = [];
 
 		var a = this.transformMatrix.elements;
-		this.addTransformation( new daign.MatrixTransform( a[0], a[3], a[1], a[4], a[2], a[5] ) );
+		this.addTransformation( new daign.AffineTransform( a[0], a[3], a[1], a[4], a[2], a[5] ) );
 
 	};
 

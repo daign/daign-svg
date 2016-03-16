@@ -10,9 +10,10 @@ daign.PathSegmentLine.prototype = Object.create( daign.PathSegment.prototype );
 
 daign.PathSegmentLine.prototype.constructor = daign.PathSegmentLine;
 
-daign.PathSegmentLine.prototype.render = function () {
+daign.PathSegmentLine.prototype.render = function ( transformMatrix ) {
 
-	return ' L ' + this.children[ 0 ].position.x + ',' + this.children[ 0 ].position.y;
+	var p1 = this.children[ 0 ].position.clone().transform( transformMatrix );
+	return ' L ' + p1.x + ',' + p1.y;
 
 };
 

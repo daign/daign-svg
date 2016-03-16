@@ -10,9 +10,11 @@ daign.PathSegmentQuadratic.prototype = Object.create( daign.PathSegment.prototyp
 
 daign.PathSegmentQuadratic.prototype.constructor = daign.PathSegmentQuadratic;
 
-daign.PathSegmentQuadratic.prototype.render = function () {
+daign.PathSegmentQuadratic.prototype.render = function ( transformMatrix ) {
 
-	return ' Q ' + this.children[ 0 ].position.x + ',' + this.children[ 0 ].position.y + ',' + this.children[ 1 ].position.x + ',' + this.children[ 1 ].position.y;
+	var p1 = this.children[ 0 ].position.clone().transform( transformMatrix );
+	var p2 = this.children[ 1 ].position.clone().transform( transformMatrix );
+	return ' Q ' + p1.x + ',' + p1.y + ',' + p2.x + ',' + p2.y;
 
 };
 
