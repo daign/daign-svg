@@ -1,9 +1,12 @@
-Daign SVG
+daign svg
 =========
 
-### A new online SVG editor in the early stages ###
+*This project was discontinued in favor of [daign-2d-graphics](https://github.com/daign/daign-2d-graphics)!*
 
-[Demo](http://daign.github.io/daign-svg/) — [About this project](./docs/about.md)
+### Prototype for an online SVG editor ###
+
+* [Online demo](http://daign.github.io/daign-svg/)
+* [About this project](./docs/about.md)
 
 Licensed under [GNU GENERAL PUBLIC LICENSE](https://github.com/daign/daign-svg/blob/master/LICENSE)
 
